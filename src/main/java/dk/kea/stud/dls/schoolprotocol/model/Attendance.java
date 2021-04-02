@@ -4,8 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class Teacher  extends BaseEntity {
+public class Attendance {
 
     @Id
     private Long id;
+
 }
