@@ -16,6 +16,10 @@ import java.util.Set;
 @ToString
 public class Student extends BaseEntity {
 
+    public Student(){
+        super();
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +29,5 @@ public class Student extends BaseEntity {
     @ManyToMany (mappedBy = "students")
     @JoinColumn (name = "student_id")
     private Set<Subject> lessons = new HashSet<>();
-
-
 
 }

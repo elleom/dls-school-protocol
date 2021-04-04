@@ -15,6 +15,10 @@ import javax.persistence.Id;
 @ToString
 public class Teacher  extends BaseEntity {
 
+    public Teacher(){
+        super();
+    }
+
     @Id
     private Long id;
 }
