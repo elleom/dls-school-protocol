@@ -23,6 +23,15 @@ public class Lesson {
     private Date date;
     private String code;
 
+    @OneToMany
+    @JoinColumn(name = "lesson_id")
+    Set<Attendance> lessons;
+
+    @ManyToOne
+    private Teacher teacher;
+    @ManyToOne
+    private Subject subject;
+
 
 
 

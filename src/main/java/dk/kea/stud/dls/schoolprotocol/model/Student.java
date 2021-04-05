@@ -24,10 +24,13 @@ public class Student extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToMany
+    @JoinColumn(name = "student_id" )
+    private Set<Attendance> attendance;
 
-    // todo
-    @ManyToMany (mappedBy = "students")
-    @JoinColumn (name = "student_id")
-    private Set<Subject> lessons = new HashSet<>();
+    @ManyToMany(mappedBy = "students")
+    private Set<Subject> subjects;
+
+
 
 }
