@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>School Protocol</title>
+</head>
+<body>
+
+<h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+
+
+</body>
+</html>
