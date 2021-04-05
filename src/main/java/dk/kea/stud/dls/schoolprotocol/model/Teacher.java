@@ -23,6 +23,8 @@ public class Teacher  extends BaseEntity {
     @Id
     private Long id;
 
+    private String role = "teacher";
+
     @OneToMany
     @JoinColumn(name = "teacher_id" )
     private Set<Lesson> lessons;

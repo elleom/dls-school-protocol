@@ -24,6 +24,8 @@ public class Student extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String role = "student";
+
     @OneToMany
     @JoinColumn(name = "student_id" )
     private Set<Attendance> attendance;
