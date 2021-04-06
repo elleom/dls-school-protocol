@@ -9,6 +9,15 @@
 
 <h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
 
+<html>
+<head>
+    <title>Client IP</title>
+</head>
+<body>
+<h1>Your IP Address: <span th:text="${clientIp}"></span></h1>
+</body>
+</html>
+
 
 </body>
 </html>
