@@ -1,5 +1,8 @@
 package dk.kea.stud.dls.schoolprotocol.service;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -17,9 +20,7 @@ public class RequestServiceImpl implements RequestService {
     @Override
     public String getClientIp(HttpServletRequest request) {
         String ipAddress = request.getHeader("X-Forwarded-For");
-        if(StringUtils.isEmpty(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
-            ipAddress = request.getHeader("Proxy-Client-IP");
-        }
+        ipAddress = request.getHeader("Proxy-Client-IP");
 
         if(StringUtils.isEmpty(ipAddress) || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getHeader("WL-Proxy-Client-IP");
@@ -44,6 +45,29 @@ public class RequestServiceImpl implements RequestService {
         }
 
         return ipAddress;
+    }
+
+    @Override
+    public String getClientMac(String clientIp) {
+        String str = "";
+        String macAddress = "";
+        try {
+            Process p = Runtime.getRuntime().exec("nbtstat -A " + clientIp);
+            InputStreamReader ir = new InputStreamReader(p.getInputStream());
+            LineNumberReader input = new LineNumberReader(ir);
+            for (int i = 1; i <100; i++) {
+                str = input.readLine();
+                if (str != null) {
+                    if (str.indexOf("MAC Address") > 1) {
+                        macAddress = str.substring(str.indexOf("MAC Address") + 14, str.length());
+                        break;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace(System.out);
+        }
+        return macAddress;
     }
 
 }

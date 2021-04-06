@@ -20,7 +20,9 @@ public class Main {
     public String getIndex(HttpServletRequest request, Model model){ //add model to load repos
 
         String clientIp = requestService.getClientIp(request);
+        String clientMAC = requestService.getClientMac(clientIp);
         model.addAttribute("clientIp", clientIp);
+        model.addAttribute("clientMAC", clientMAC);
 
         return "index";
     }

@@ -6,5 +6,7 @@ public interface RequestService {
 
     String getClientIp(HttpServletRequest request);
 
+    String getClientMac(String clientIp);
+
 
 }
