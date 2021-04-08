@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>School Protocol</title>
@@ -16,6 +16,7 @@
 <body>
 <h1>Your IP Address: <span th:text="${clientIp}"></span></h1>
 <h1>Your MAC Address: <span th:text="${clientMAC}"></span></h1>
+<h1>Your MAC Address: <span th:text="${student}"></span></h1>
 </body>
 </html>
 
