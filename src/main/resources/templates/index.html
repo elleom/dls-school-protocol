@@ -15,18 +15,9 @@
 <!-- ONLY visible for STUDENT / TEACHERS depending on their role -->
 <div sec:authorize="hasAuthority('TEACHER')">
     <h3>Subjects you Teach</h3>
-    <a href="/teachers/dashboard"><h1>SUBJECT</h1></a>>
 
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>name</th>
-        </tr>
-        <tr th:each="subject : ${subjects}">
-            <td><a th:text="${subject.id}" th:href="@{'/subjects/' + ${subject.id}}">data.ID</a></td>
-            <td th:text="${subject.name}"> DATA</td>
-        </tr>
-    </table>
+    <!--DUMMY-data ID todo change-->
+    <a th:href="@{/teacher/dashboard(id=${teacher.id})}"><h1>SUBJECT</h1></a>>
 
 </div>
 
