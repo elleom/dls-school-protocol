@@ -14,14 +14,27 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private DataSource dataSource;
+    private DataSource dataSourceStudent;
+    @Autowired
+    private DataSource dataSourceTeacher;
 
     @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+    public void configAuthenticationStudent(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder())
-                .dataSource(dataSource)
+                .dataSource(dataSourceStudent)
                 .usersByUsernameQuery("select email, password, enabled from student where email=?")
                 .authoritiesByUsernameQuery("select email, role from student where email=?")
+
+        ;
+    }
+
+    @Autowired
+    public void configAuthenticationTeacher(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder())
+                .dataSource(dataSourceTeacher)
+                .usersByUsernameQuery("select email, password, enabled from teacher where email=?")
+                .authoritiesByUsernameQuery("select email, role from teacher where email=?")
+
         ;
     }
 

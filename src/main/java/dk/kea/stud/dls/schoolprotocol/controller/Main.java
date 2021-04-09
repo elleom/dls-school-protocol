@@ -23,7 +23,7 @@ public class Main {
         String clientMAC = requestService.getClientMac(clientIp);
         model.addAttribute("clientIp", clientIp);
         model.addAttribute("clientMAC", clientMAC);
-
         return "index";
+
     }
 }
