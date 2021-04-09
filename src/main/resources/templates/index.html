@@ -6,17 +6,25 @@
     <title>School Protocol</title>
 </head>
 <body>
+<div>
+    <h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+    <h1>Your IP Address: <span th:text="${clientIp}"></span></h1>
+    <h1>Your MAC Address: <span th:text="${clientMAC}"></span></h1>
+</div>
 
-<h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+<!-- ONLY visible for STUDENT / TEACHERS depending on their role -->
+<div sec:authorize="hasAuthority('TEACHER')">
+    <h3>Subjects you are signed to</h3>
+    <a href="/teachers/dashboard"><h1>SUBJECT</h1></a>>
 
-<html>
-<head>
-    <title>Client IP</title>
-</head>
-<body>
-<h1>Your IP Address: <span th:text="${clientIp}"></span></h1>
-<h1>Your MAC Address: <span th:text="${clientMAC}"></span></h1>
-<h1>Your MAC Address: <span th:text="${student}"></span></h1>
+</div>
+
+<div sec:authorize="hasAuthority('STUDENT')">
+    <h3>Subjects you are signed to</h3>
+    <a href="/students/dashboard"><h1>SUBJECT</h1></a>>
+
+</div>
+
 </body>
 </html>
 
