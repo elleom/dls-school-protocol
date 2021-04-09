@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div sec:authorize="hasAuthority('TEACHER')">
+  <h3>Subjects you Teach</h3>
+  <a href="/teachers/dashboard"><h1>SUBJECT</h1></a>>
+
+  <table>
+    <tr>
+      <th>ID</th>
+      <th>name</th>
+    </tr>
+    <tr th:each="subject : ${subjects}">
+      <td><a th:text="${subject.id}" th:href="@{'/subjects/' + ${subject.id}}">data.ID</a></td>
+      <td th:text="${subject.name}"> DATA</td>
+    </tr>
+  </table>
+
+</div>
+
+
+
+</body>
+</html>
