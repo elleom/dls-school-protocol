@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class Main {
+public class IndexController {
 
     @Autowired
     RequestService requestService;
@@ -33,7 +33,7 @@ public class Main {
         String clientMAC = requestService.getClientMac(clientIp);
         model.addAttribute("clientIp", clientIp);
         model.addAttribute("clientMAC", clientMAC);
-        model.addAttribute("teacher", teacher);
+        model.addAttribute("user", teacher);
 
         return "index";
     }
