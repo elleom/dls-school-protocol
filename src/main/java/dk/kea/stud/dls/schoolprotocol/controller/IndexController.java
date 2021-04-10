@@ -1,7 +1,9 @@
 package dk.kea.stud.dls.schoolprotocol.controller;
 
+import dk.kea.stud.dls.schoolprotocol.model.Student;
 import dk.kea.stud.dls.schoolprotocol.model.Subject;
 import dk.kea.stud.dls.schoolprotocol.model.Teacher;
+import dk.kea.stud.dls.schoolprotocol.repository.StudentRepository;
 import dk.kea.stud.dls.schoolprotocol.repository.SubjectRepository;
 import dk.kea.stud.dls.schoolprotocol.repository.TeacherRepository;
 import dk.kea.stud.dls.schoolprotocol.service.RequestService;
@@ -19,6 +21,8 @@ public class IndexController {
     RequestService requestService;
     @Autowired
     TeacherRepository teacherRepository;
+    @Autowired
+    StudentRepository studentRepository;
 
 
 
@@ -26,17 +30,29 @@ public class IndexController {
     public String getIndex(HttpServletRequest request, Model model){ //add model to load repos
 
         String userName = request.getRemoteUser();
-        Teacher teacher = teacherRepository.findById(1L).get();
+        Teacher teacher = teacherRepository.findByUserName(userName);
+        Student student = studentRepository.findByUserName(userName);
+
+        /*
+        checks if logged in user is stud or teach
+        add to model as user.
+         */
+        if (teacher != null) {
+            model.addAttribute("user", teacher);
+        } else {
+            model.addAttribute("user", student);
+        }
 
 
         String clientIp = requestService.getClientIp(request);
         String clientMAC = requestService.getClientMac(clientIp);
         model.addAttribute("clientIp", clientIp);
         model.addAttribute("clientMAC", clientMAC);
-        model.addAttribute("user", teacher);
 
         return "index";
     }
+
+
 
 
 
