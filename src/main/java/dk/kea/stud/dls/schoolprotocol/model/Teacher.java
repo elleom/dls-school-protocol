@@ -24,6 +24,7 @@ public class Teacher  extends BaseEntity {
     private Long id;
 
     private String role = "teacher";
+    private String email;
 
     @OneToMany
     @JoinColumn(name = "teacher_id" )
