@@ -13,8 +13,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode
-@ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 public class Lesson {
 
     @Id
@@ -27,8 +26,6 @@ public class Lesson {
     @JoinColumn(name = "lesson_id")
     Set<Attendance> lessons;
 
-    @ManyToOne
-    private Teacher teacher;
     @ManyToOne
     private Subject subject;
 

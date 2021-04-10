@@ -13,7 +13,6 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode
-@ToString
 public class Student extends BaseEntity {
 
     public Student(){

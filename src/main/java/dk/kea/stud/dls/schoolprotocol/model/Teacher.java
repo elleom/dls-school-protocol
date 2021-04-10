@@ -12,8 +12,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode
-@ToString
 public class Teacher  extends BaseEntity {
 
     public Teacher(){

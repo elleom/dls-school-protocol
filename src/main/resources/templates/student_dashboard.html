@@ -9,7 +9,6 @@
 
 <div sec:authorize="hasAuthority('STUDENT')">
   <h3>Courses you take</h3>
-  <a href="/teachers/dashboard"><h1>SUBJECT</h1></a>
 
   <table>
     <tr>
@@ -18,7 +17,8 @@
     </tr>
     <tr th:each="subject : ${subjects}">
       <td><a th:text="${subject.id}">data.ID</a></td>
-      <td th:text="${subject.name}"> DATA</td>
+      <a th:href="@{../subject/details(id=${subject.id})}" th:text="${subject.name}"></a>
+
     </tr>
   </table>
 

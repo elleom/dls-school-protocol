@@ -7,8 +7,6 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@EqualsAndHashCode
-@ToString
 public class BaseEntity {
 
     private String fullName;

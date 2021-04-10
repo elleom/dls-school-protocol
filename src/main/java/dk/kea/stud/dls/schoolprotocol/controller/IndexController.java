@@ -33,10 +33,10 @@ public class IndexController {
         Teacher teacher = teacherRepository.findByUserName(userName);
         Student student = studentRepository.findByUserName(userName);
 
-        String clientIp = requestService.getClientIp(request);
-        String clientMAC = requestService.getClientMac(clientIp);
-        model.addAttribute("clientIp", clientIp);
-        model.addAttribute("clientMAC", clientMAC);
+        //String clientIp = requestService.getClientIp(request);
+        //String clientMAC = requestService.getClientMac(clientIp);
+        //model.addAttribute("clientIp", clientIp);
+        //model.addAttribute("clientMAC", clientMAC);
 
         /*
         checks if logged in user is stud or teach
