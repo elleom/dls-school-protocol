@@ -14,7 +14,6 @@
 
 <!-- ONLY visible for STUDENT / TEACHERS depending on their role -->
 <div sec:authorize="hasAuthority('TEACHER')">
-    <h3>Subjects you Teach</h3>
 
     <!--DUMMY-data ID todo change-->
     <a th:href="@{api/teacher/dashboard(id=${user.id})}"><h1>SUBJECT</h1></a>
@@ -22,10 +21,7 @@
 </div>
 
 <div sec:authorize="hasAuthority('STUDENT')">
-    <h3>Subjects you are signed to</h3>
-    <a href="api/students/dashboard"><h1>SUBJECT</h1></a>
     <a th:href="@{api/student/dashboard(id=${user.id})}"><h1>SUBJECT</h1></a>
-
 </div>
 
 </body>
