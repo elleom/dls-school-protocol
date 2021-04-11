@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Subject details</title>
+  <title>Student list</title>
 </head>
 <body>
 
@@ -14,15 +14,16 @@
   <table>
     <tr>
       <th>ID</th>
-      <th>date</th>
-      <th>code</th>
+      <th>name</th>
+      <th>email</th>
     </tr>
-<!--
-    <tr th:each="lesson : ${lessons}">
-      <td><a th:text="${lesson.id}">data.ID</a></td>
-      <td th:text="${lesson.code}"> DATA</td>
-    </tr>
-    -->
+
+        <tr th:each="student : ${students}">
+          <td><a th:text="${student.id}">data.ID</a></td>
+          <td th:text="${student.fullName}"> DATA</td>
+          <td th:text="${student.email}"> DATA</td>
+        </tr>
+
   </table>
 
 </div>
