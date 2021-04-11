@@ -4,6 +4,7 @@ import dk.kea.stud.dls.schoolprotocol.model.Student;
 import dk.kea.stud.dls.schoolprotocol.model.Subject;
 import dk.kea.stud.dls.schoolprotocol.repository.StudentRepository;
 import dk.kea.stud.dls.schoolprotocol.repository.SubjectRepository;
+import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,12 @@ public class StudentController {
         Student students = studentRepository.findById(1L).get();
         model.addAttribute("students", students);
         return "students_list";
+    }
+
+    @RequestMapping({"/student/lessons"})
+    public String getSubjectDetails(@Param("id") Long subjectId, Model model){
+        //todo finish
+        return null;
     }
 
 
