@@ -7,9 +7,9 @@
 </head>
 <body>
 
-<div>
+<div sec:authorize="hasAuthority('TEACHER')">
   <h3>Subjects you Teach</h3>
-  <a href="/teachers/dashboard"><h1>SUBJECT</h1></a>
+  <a th:href="@{./dashboard(id=${user.id})}"><h1>SUBJECT</h1></a>
 
   <table>
     <tr>
@@ -17,12 +17,10 @@
       <th>date</th>
       <th>code</th>
     </tr>
-<!--
-    <tr th:each="lesson : ${lessons}">
+    <tr th:each="lesson : ${lesson}">
       <td><a th:text="${lesson.id}">data.ID</a></td>
       <td th:text="${lesson.code}"> DATA</td>
     </tr>
-    -->
   </table>
 
 </div>
