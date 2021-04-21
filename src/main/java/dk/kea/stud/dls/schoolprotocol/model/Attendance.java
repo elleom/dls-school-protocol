@@ -10,7 +10,13 @@ import javax.persistence.*;
 @Setter
 public class Attendance {
 
+    public Attendance(Student student, Lesson lesson){
+        this.student = student;
+        this.lesson = lesson;
+    }
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

@@ -18,10 +18,10 @@
       <th>email</th>
     </tr>
 
-        <tr th:each="student : ${students}">
-          <td><a th:text="${student.id}">data.ID</a></td>
-          <td th:text="${student.fullName}"> DATA</td>
-          <td th:text="${student.email}"> DATA</td>
+        <tr th:each="student : ${students}"> <!-- single object -->
+          <td><a th:text="${students.id}">data.ID</a></td>
+          <td th:text="${students.fullName}"> DATA</td>
+          <td th:text="${students.email}"> DATA</td>
         </tr>
 
   </table>
