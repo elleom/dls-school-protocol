@@ -58,7 +58,7 @@ public class TeacherController {
         return "subjectDetails";
     }
     @PostMapping("/teacher/subjectDetails")
-    public @ResponseBody String addNewClass (@RequestParam String newClass){
+    public @ResponseBody String addNewClass (@RequestParam String newLesson){
         Lesson lesson = new Lesson();
         return "subjectDetails";
     }
