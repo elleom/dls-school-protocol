@@ -3,12 +3,9 @@ package dk.kea.stud.dls.schoolprotocol.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
+import java.sql.Timestamp;
 import java.util.Set;
 
 @Entity
@@ -20,7 +17,7 @@ public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date date;
+    private Timestamp date;
     private String code;
 
     @OneToMany
@@ -29,8 +26,4 @@ public class Lesson {
 
     @ManyToOne
     private Subject subject;
-
-
-
-
 }

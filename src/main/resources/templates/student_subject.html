@@ -34,8 +34,19 @@
         </div>
         <button>button</button>
     </tr>
-
 </table>
+<div th:if="${checkIn}">
+    <form action="/student/lesson" method="post">
+        <input min="10" name="lesson_code" type="text">
+        <input th:name="submit-btn" type="submit">
+        <input th:name="lesson_id" th:value="${lessonId}" type="hidden">
+        <input th:value="${student.id}" type="hidden" name="student_id">
+
+    </form>
+
+</div>
+
+
 </body>
 <script>
     const input = document.getElementsByClassName('date');

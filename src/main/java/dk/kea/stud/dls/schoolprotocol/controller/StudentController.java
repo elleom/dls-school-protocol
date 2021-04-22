@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -59,44 +60,53 @@ public class StudentController {
 
     @GetMapping({"/subject/details"})
     public String getSubjectDetails(@Param("subjectId") Long subjectId, @Param("studentId") Long studentId , Model model) throws ParseException {
-        //todo finish
+
         Student student = studentRepository.findById(studentId).get();
         Subject subject = subjectRepository.findById(studentId).get();
         Iterable<Lesson> lessons = lessonRepository.getAllbySubject(subjectId);
 
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        Long lastLessonId = lessonRepository.getLastLessonFromSubject(subjectId);
+        Lesson lastLesson = lessonRepository.findById(lastLessonId).get();
 
-        Lesson last = lessonRepository.findById(2L).get();
-        Date dateStart = last.getDate();
-        Date dateLesson = Calendar.getInstance().getTime();
+        Timestamp timeCreated = lastLesson.getDate();
+        Timestamp now = new Timestamp(System.currentTimeMillis());
 
-        //in milliseconds
-        long diff = dateStart.getTime() - dateLesson.getTime();
-        long diffMinutes = diff / (60 * 1000) % 60;
+        long millisecondsTimeCreated = timeCreated.getTime();
+        long millisecondsNow = now.getTime();
+        long diffMilliseconds = millisecondsNow - millisecondsTimeCreated;
 
+        long diffMinutes = diffMilliseconds / (60 * 1000);
+        boolean checkIn = false;
 
+        if (diffMinutes <= 15) {
+            checkIn = true;
+        }
 
-
+        model.addAttribute("lessonId", lastLessonId);
+        model.addAttribute("checkIn", checkIn);
         model.addAttribute("student", student);
         model.addAttribute("lessons", lessons);
         model.addAttribute("subject", subject);
-
-
         return "student_subject";
 
     }
 
     @PostMapping({"/student/lessons"})
-    public void declareAttendance(@Param("lesson_id") Long lessonId,
-                                  @Param("student_id") Long studentId){
+    public String declareAttendance(@Param("lesson_id") Long lessonId,
+                                  @Param("student_id") Long studentId,
+                                  @Param("code") String code){
 
         Student student = studentRepository.findById(studentId).get();
         Lesson lesson = lessonRepository.findById(lessonId).get();
-        Attendance attendance = new Attendance(student, lesson);
 
-        attendanceRepository.save(attendance); //todo if not then rollback
+        if(lesson.getCode().equalsIgnoreCase(code)) {
+            Attendance attendance = new Attendance(student, lesson);
+            attendanceRepository.save(attendance); //todo if not then rollback
 
+            return "attendance_success";
+        }
+        else {
+            return "attendance_fail";
+        }
     }
-
-
 }
