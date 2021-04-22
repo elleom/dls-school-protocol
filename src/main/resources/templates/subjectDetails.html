@@ -22,9 +22,9 @@
       <td th:text="${lesson.code}"> DATA</td>
     </tr>
   </table>
-  <form method="POST">
+  <form ><!method="POST">
     <tr>
-    <td><input type="submit" text="create new class" location.reload()  value="New lesson" style="display: block;"></td><!-- does not reload with id, returns faulty page -->
+    <td><input type="submit" text="create new class" th:href="@{./dashboard(id=${user.id})}" value="New lesson" style="display: block;"></td><!-- does not reload with id, returns faulty page -->
     </tr>
   </form>
 </div>
