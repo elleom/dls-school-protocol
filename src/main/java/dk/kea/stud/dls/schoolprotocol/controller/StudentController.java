@@ -63,6 +63,20 @@ public class StudentController {
         Student student = studentRepository.findById(studentId).get();
         Subject subject = subjectRepository.findById(studentId).get();
         Iterable<Lesson> lessons = lessonRepository.getAllbySubject(subjectId);
+
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+
+        Lesson last = lessonRepository.findById(2L).get();
+        Date dateStart = last.getDate();
+        Date dateLesson = Calendar.getInstance().getTime();
+
+        //in milliseconds
+        long diff = dateStart.getTime() - dateLesson.getTime();
+        long diffMinutes = diff / (60 * 1000) % 60;
+
+
+
+
         model.addAttribute("student", student);
         model.addAttribute("lessons", lessons);
         model.addAttribute("subject", subject);
