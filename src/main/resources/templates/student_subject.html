@@ -23,11 +23,7 @@
                         <a th:text="${lesson.subject}">data.ID</a>
                         <a class="date" th:text="${lesson.date}">data.ID</a>
                     </div>
-                    <div>
-                        <input maxlength="9" required type="text">
-                        <h6></h6>
-                        <input name="enterCode" type="submit">
-                    </div>
+
                 </div>
 
             </td>
@@ -36,11 +32,11 @@
     </tr>
 </table>
 <div th:if="${checkIn}">
-    <form action="/student/lesson" method="post">
-        <input min="10" name="lesson_code" type="text">
-        <input th:name="submit-btn" type="submit">
-        <input th:name="lesson_id" th:value="${lessonId}" type="hidden">
-        <input th:value="${student.id}" type="hidden" name="student_id">
+    <form method="post" th:action="@{/api/student/lessons}">
+        <input th:min="10" th:name="lesson_code" th:type="text">
+        <input th:name="lesson_id" th:value="${lessonId}" th:type="hidden">
+        <input th:value="${student.id}" th:type="hidden" th:name="student_id">
+        <input th:name="submit-btn" th:type="submit">
 
     </form>
 

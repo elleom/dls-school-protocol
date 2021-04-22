@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Time;
@@ -78,7 +79,7 @@ public class StudentController {
         long diffMinutes = diffMilliseconds / (60 * 1000);
         boolean checkIn = false;
 
-        if (diffMinutes <= 15) {
+        if (diffMinutes <= 100) { // todo change time
             checkIn = true;
         }
 
@@ -92,9 +93,9 @@ public class StudentController {
     }
 
     @PostMapping({"/student/lessons"})
-    public String declareAttendance(@Param("lesson_id") Long lessonId,
-                                  @Param("student_id") Long studentId,
-                                  @Param("code") String code){
+    public String declareAttendance(@RequestParam("lesson_id") Long lessonId,
+                                  @RequestParam("student_id") Long studentId,
+                                  @RequestParam("lesson_code") String code){
 
         Student student = studentRepository.findById(studentId).get();
         Lesson lesson = lessonRepository.findById(lessonId).get();
