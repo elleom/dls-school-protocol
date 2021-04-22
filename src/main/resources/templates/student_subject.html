@@ -1,13 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<form method="post" action="">
+<h1>Course name</h1>
 
-</form>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>lesson</th>
+    </tr>
+    <tr>
+        <div th:each="lesson : ${lessons}">
+            <td>
+                <div>
+                    <div>
+                        <a th:text="${lesson.id}">data.ID</a>
+                        <a th:text="${lesson.subject}">data.ID</a>
+                        <a class="date" th:text="${lesson.date}">data.ID</a>
+                    </div>
+                    <div>
+                        <input maxlength="9" required type="text">
+                        <h6></h6>
+                        <input name="enterCode" type="submit">
+                    </div>
+                </div>
+
+            </td>
+        </div>
+        <button onclick="onLoadHandler()">button</button>
+    </tr>
+
+</table>
+</body>
+
+
 
 </body>
+
 </html>

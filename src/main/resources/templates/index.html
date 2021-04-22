@@ -22,7 +22,7 @@
 </div>
 
 <div sec:authorize="hasAuthority('STUDENT')">
-    <a th:href="@{api/student/dashboard(id=${user.id})}"><h1>SUBJECT</h1></a>
+    <a th:href="@{api/student/dashboard(studentId=${user.id})}"><h1>SUBJECT</h1></a>
 </div>
 
 </body>

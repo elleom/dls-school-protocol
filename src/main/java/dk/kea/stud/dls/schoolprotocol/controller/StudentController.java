@@ -17,6 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/api")
@@ -31,10 +39,10 @@ public class StudentController {
     @Autowired
     AttendanceRepository attendanceRepository;
 
-    @GetMapping ({"/student/dashboard", "/student/dashboard.html"})
-    public String getDashBoard(@Param("subjectId") Long id,@Param("studentId") Long studentId, HttpServletRequest request, Model model){ //add model to load repos
+    @RequestMapping({"/student/dashboard", "/student/dashboard.html"})
+    public String getDashBoard(@Param("studentId") Long studentId, HttpServletRequest request, Model model){ //add model to load repos
         //tryout OK
-        Iterable<Subject> subjects = subjectRepository.findAllByTeacher(id); //todo change interface to student
+        Iterable<Subject> subjects = subjectRepository.findAllByStudent(studentId); //todo change interface to student
         Student student = studentRepository.findById(studentId).get();
         model.addAttribute("student", student);
         model.addAttribute("subjects", subjects);
@@ -44,15 +52,24 @@ public class StudentController {
     @GetMapping({"/student/showAll", "/student/showAll.html"})
     public String getDashBoard(Model model){ //add model to load repos
 
-        Student students = studentRepository.findById(1L).get();
+        Student students = studentRepository.findById(1L).get(); //todo change here
         model.addAttribute("students", students);
         return "students_list";
     }
 
-    @GetMapping({"/student/lessons"})
-    public String getSubjectDetails(@Param("id") Long subjectId, Model model){
+    @GetMapping({"/subject/details"})
+    public String getSubjectDetails(@Param("subjectId") Long subjectId, @Param("studentId") Long studentId , Model model) throws ParseException {
         //todo finish
-        return null;
+        Student student = studentRepository.findById(studentId).get();
+        Subject subject = subjectRepository.findById(studentId).get();
+        Iterable<Lesson> lessons = lessonRepository.getAllbySubject(subjectId);
+        model.addAttribute("student", student);
+        model.addAttribute("lessons", lessons);
+        model.addAttribute("subject", subject);
+
+
+        return "student_subject";
+
     }
 
     @PostMapping({"/student/lessons"})
