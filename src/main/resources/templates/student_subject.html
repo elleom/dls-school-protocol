@@ -4,11 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-<h1>Course name</h1>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
 
-
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="#">Dashboard<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="#">Courses</a>
+            <a class="nav-item nav-link" href="#">Attendance</a>
+        </div>
+    </div>
+</nav>
 <table>
     <tr>
         <th>ID</th>
@@ -20,7 +31,7 @@
                 <div>
                     <div>
                         <a th:text="${lesson.id}">data.ID</a>
-                        <a th:text="${lesson.subject}">data.ID</a>
+                        <a th:text="${lesson.subject.name}">data.ID</a>
                         <a class="date" th:text="${lesson.date}">data.ID</a>
                     </div>
 
@@ -34,10 +45,9 @@
 <div th:if="${checkIn}">
     <form method="post" th:action="@{/api/student/lessons}">
         <input th:min="10" th:name="lesson_code" th:type="text">
-        <input th:name="lesson_id" th:value="${lessonId}" th:type="hidden">
-        <input th:value="${student.id}" th:type="hidden" th:name="student_id">
-        <input th:name="submit-btn" th:type="submit">
-
+        <input th:name="lesson_id" th:value="${lessonId}" th:type="hidden" type="hidden"/>
+        <input th:value="${student.id}" th:type="hidden" th:name="student_id" type="hidden"/>
+        <input th:name="submit-btn" th:type="submit" type="submit">Enter Code</input>
     </form>
 
 </div>
