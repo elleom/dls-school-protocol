@@ -1,9 +1,6 @@
 package dk.kea.stud.dls.schoolprotocol.controller;
 
-import dk.kea.stud.dls.schoolprotocol.model.Attendance;
-import dk.kea.stud.dls.schoolprotocol.model.Lesson;
-import dk.kea.stud.dls.schoolprotocol.model.Student;
-import dk.kea.stud.dls.schoolprotocol.model.Subject;
+import dk.kea.stud.dls.schoolprotocol.model.*;
 import dk.kea.stud.dls.schoolprotocol.repository.AttendanceRepository;
 import dk.kea.stud.dls.schoolprotocol.repository.LessonRepository;
 import dk.kea.stud.dls.schoolprotocol.repository.StudentRepository;
@@ -20,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/api")
@@ -34,11 +33,13 @@ public class StudentController {
     @Autowired
     AttendanceRepository attendanceRepository;
 
-    @RequestMapping({"/student/dashboard", "/student/dashboard.html"})
-    public String getDashBoard(@Param("studentId") Long studentId, HttpServletRequest request, Model model){ //add model to load repos
+    @RequestMapping({"/student/courses", "/student/courses.html"})
+    public String getDashBoard(HttpServletRequest request, Model model){ //add model to load repos
         //tryout OK
-        Iterable<Subject> subjects = subjectRepository.findAllByStudent(studentId); //todo change interface to student
-        Student student = studentRepository.findById(studentId).get();
+        Student student = getLoggedStudent(request);
+
+        Iterable<Subject> subjects = subjectRepository.findAllByStudent(student.getId()); //todo change interface to student
+
         model.addAttribute("student", student);
         model.addAttribute("subjects", subjects);
         return "student_dashboard";
@@ -59,6 +60,8 @@ public class StudentController {
         Subject subject = subjectRepository.findById(studentId).get();
         Iterable<Lesson> lessons = lessonRepository.getAllbySubject(subjectId);
 
+        //todo set condition for lessons < 0
+
         Long lastLessonId = lessonRepository.getLastLessonFromSubject(subjectId);
         Lesson lastLesson = lessonRepository.findById(lastLessonId).get();
 
@@ -76,11 +79,16 @@ public class StudentController {
             checkIn = true;
         }
 
+        ArrayList<Attendance> attendances = attendanceRepository.findAllByStudent(studentId);
+        attendances.forEach(x ->
+                System.out.println(x.getLesson().getId().toString()));
+
         model.addAttribute("lessonId", lastLessonId);
         model.addAttribute("checkIn", checkIn);
         model.addAttribute("student", student);
         model.addAttribute("lessons", lessons);
         model.addAttribute("subject", subject);
+        model.addAttribute("attendances", attendances);
         return "student_subject";
 
     }
@@ -102,5 +110,10 @@ public class StudentController {
         else {
             return "attendance_fail";
         }
+    }
+
+    public Student getLoggedStudent(HttpServletRequest request){
+        Student student = studentRepository.findByUserName(request.getRemoteUser());
+        return student;
     }
 }

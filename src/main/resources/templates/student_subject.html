@@ -1,52 +1,70 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:h6th="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="#">School Protocol</a>
+    <button aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-target="#navbarNavAltMarkup" data-toggle="collapse" type="button">
 
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">Dashboard<span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="#">Courses</a>
+            <a class="nav-item nav-link active" th:href="@{api/student/dashboard}">Dashboard</a>
+            <a class="nav-item nav-link" th:href="@{api/student/dashboard}">Courses<span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="#">Attendance</a>
         </div>
     </div>
 </nav>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>lesson</th>
-    </tr>
-    <tr>
+
+<section>
+    <h1 class="display-4 text-center" th:text="${subject.name}"></h1>
+</section>
+<div class="container">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>lesson</th>
+            <th>date</th>
+            <th>Check-In</th>
+        </tr>
+        </thead>
+        <tbody>
+
         <div th:each="lesson : ${lessons}">
-            <td>
-                <div>
-                    <div>
-                        <a th:text="${lesson.id}">data.ID</a>
-                        <a th:text="${lesson.subject.name}">data.ID</a>
-                        <a class="date" th:text="${lesson.date}">data.ID</a>
-                    </div>
-
+            <tr>
+                <td>
+                    <a th:text="${lesson.id}">LESSON.ID</a>
+                </td>
+                <td>
+                    <a th:text="${lesson.subject.name}">SUBJECT-NAME.ID</a>
+                </td>
+                <td>
+                    <a class="date" th:text="${lesson.date}">LESSON-DATE.ID</a>
+                </td>
+                <div th:each="attendance :${attendances}" >
+                    <td th:if="${lesson.id} == ${attendance.lesson.id}">
+                        <img th:src="@{/img/checkIn.png}" width="30px" height="30px"/>
+                    </td>
                 </div>
-
-            </td>
+            </tr>
         </div>
-        <button>button</button>
-    </tr>
-</table>
+        </tbody>
+    </table>
+</div>
 <div th:if="${checkIn}">
     <form method="post" th:action="@{/api/student/lessons}">
         <input th:min="10" th:name="lesson_code" th:type="text">
-        <input th:name="lesson_id" th:value="${lessonId}" th:type="hidden" type="hidden"/>
-        <input th:value="${student.id}" th:type="hidden" th:name="student_id" type="hidden"/>
+        <input th:name="lesson_id" th:type="hidden" th:value="${lessonId}" type="hidden"/>
+        <input th:name="student_id" th:type="hidden" th:value="${student.id}" type="hidden"/>
         <input th:name="submit-btn" th:type="submit" type="submit">Enter Code</input>
     </form>
 
