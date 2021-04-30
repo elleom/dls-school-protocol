@@ -33,7 +33,7 @@ public class StudentController {
     AttendanceRepository attendanceRepository;
 
     @RequestMapping({"/student/courses", "/student/courses.html"})
-    public String getDashBoard(HttpServletRequest request, Model model){ //add model to load repos
+    public String getCourses(HttpServletRequest request, Model model) { //add model to load repos
         //tryout OK
         Student student = getLoggedStudent(request);
 
@@ -44,16 +44,16 @@ public class StudentController {
         return "userCourses";
     }
 
-    @GetMapping({"/student/showAll", "/student/showAll.html"})
-    public String getDashBoard(Model model){ //add model to load repos
+    @GetMapping({"/dashboard", "/dashboard"})
+    public String getDashboard(Model model, HttpServletRequest request) { //add model to load repos
 
-        Student students = studentRepository.findById(1L).get(); //todo change here
-        model.addAttribute("students", students);
-        return "students_list";
+        Student student = getLoggedStudent(request);  //todo change to getUser and set accordingly
+        model.addAttribute("student", student);
+        return "dashboard";
     }
 
     @GetMapping({"/subject/details"})
-    public String getSubjectDetails(@Param("subjectId") Long subjectId, @Param("studentId") Long studentId , Model model) throws ParseException {
+    public String getSubjectDetails(@Param("subjectId") Long subjectId, @Param("studentId") Long studentId, Model model) throws ParseException {
 
         Student student = studentRepository.findById(studentId).get();
         Subject subject = subjectRepository.findById(studentId).get();
@@ -94,24 +94,24 @@ public class StudentController {
 
     @PostMapping({"/student/lessons"})
     public String declareAttendance(@RequestParam("lesson_id") Long lessonId,
-                                  @RequestParam("student_id") Long studentId,
-                                  @RequestParam("lesson_code") String code){
+                                    @RequestParam("student_id") Long studentId,
+                                    @RequestParam("lesson_code") String code) {
 
         Student student = studentRepository.findById(studentId).get();
         Lesson lesson = lessonRepository.findById(lessonId).get();
 
-        if(lesson.getCode().equalsIgnoreCase(code)) {
+        if (lesson.getCode().equalsIgnoreCase(code)) {
             Attendance attendance = new Attendance(student, lesson);
             attendanceRepository.save(attendance); //todo if not then rollback
 
             return "attendance_success";
-        }
-        else {
+        } else {
             return "attendance_fail";
         }
     }
 
-    public Student getLoggedStudent(HttpServletRequest request){
+    public Student getLoggedStudent(HttpServletRequest request) {
+        String user = request.getRemoteUser();
         Student student = studentRepository.findByUserName(request.getRemoteUser());
         return student;
     }

@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface StudentRepository extends CrudRepository<Student, Long> {
 
-    @Query("SELECT s FROM  Student s WHERE s.email = :email")
+    @Query(value = "SELECT s.* FROM  student s WHERE s.email = :email", nativeQuery = true)
     Student findByUserName(@Param("email") String email); //defines a list of Users with the same name
 
 }

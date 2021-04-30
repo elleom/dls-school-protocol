@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Student list</title>
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">School Protocol</a>
+    <button aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-target="#navbarNavAltMarkup" data-toggle="collapse" type="button">
+
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" th:href="@{/index}">Home</a>
+            <a class="nav-item nav-link active" th:href="@{/api/dashboard}">Dashboard<span class="sr-only">(current)</span></a>
+
+            <a sec:authorize="hasAuthority('TEACHER')"
+               th:href="@{/api/teacher/courses}"><h1>Courses</h1></a>
+
+            <a class="nav-item nav-link" sec:authorize="hasAuthority('STUDENT')"
+               th:href="@{/api/student/courses}">Courses</a>
+            <a class="nav-item nav-link" href="#">Stats</a>
+        </div>
+    </div>
+    <div>
+        <a class="nav-link btn navbar-btn btn-danger navbar-right" role="button" th:href="@{/logout}">Logout</a>
+    </div>
+</nav>
+
+
+<div>
+    <h3>Profile</h3>
+    <a href="/teachers/dashboard"><h1>SUBJECT</h1></a>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>name</th>
+            <th>email</th>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

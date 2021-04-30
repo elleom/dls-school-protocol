@@ -14,10 +14,10 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link" th:href="@{/index}">Home</a>
-            <a class="nav-item nav-link" th:href="@{/api/student/dashboard}" href="#">Dashboard</a> <!-- todo change dual dahsboard -->
+            <a class="nav-item nav-link" th:href="@{/api/dashboard}" href="#">Dashboard</a> <!-- todo change dual dahsboard -->
 
             <a sec:authorize="hasAuthority('TEACHER')"
-               th:href="@{/api/teacher/dashboard(id=${student.id})}"><h1>SUBJECT</h1></a> <!--todo make dual dashboard -->
+               th:href="@{/api/teacher/dashboard}"><h1>SUBJECT</h1></a> <!--todo make dual dashboard -->
 
             <a class="nav-item nav-link active" sec:authorize="hasAuthority('STUDENT')"
                th:href="@{/api/student/courses}">Courses<span class="sr-only">(current)</span></a> <!--todo change mapping for dashboard so doesnt repeat -->
@@ -26,7 +26,7 @@
 
     </div>
     <div>
-        <a class="nav-link btn navbar-btn btn-danger navbar-right" role="button" href="#">Logout</a>
+        <a class="nav-link btn navbar-btn btn-danger navbar-right" role="button" th:href="@{/logout}">Logout</a>
     </div>
 </nav>
 
@@ -35,7 +35,7 @@
     <div class="row mx-auto container" style="margin-top: 25px">
         <div class="mx-auto" th:each="sub : ${subjects}">
             <div class="col-sm-6">
-                <div class="card" style="width: 18rem;">
+                <div class="card bg-light" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title" th:text="${sub.name}">Card title</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>

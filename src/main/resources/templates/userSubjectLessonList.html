@@ -18,13 +18,13 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link" th:href="@{/index}">Home</a>
-            <a class="nav-item nav-link " th:href="@{/api/student/dashboard}">Dashboard</a>
+            <a class="nav-item nav-link " th:href="@{/api/dashboard}">Dashboard</a>
             <a class="nav-item nav-link active" th:href="@{/api/student/courses}">Courses<span class="sr-only">(current)</span></a>
             <a class="nav-item nav-link" href="#">Attendance</a>
         </div>
     </div>
     <div>
-        <a class="nav-link btn navbar-btn btn-danger navbar-right" role="button" href="#">Logout</a>
+        <a class="nav-link btn navbar-btn btn-danger navbar-right" role="button" th:href="@{/logout}">Logout</a>
     </div>
 </nav>
 

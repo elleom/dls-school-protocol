@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Columns;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -15,13 +16,17 @@ import java.util.Set;
 @EqualsAndHashCode
 public class Student extends BaseEntity {
 
-    public Student(){
+    public Student( ){
         super();
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "fullname") //important to keep with lowercase
+    private String fullName;
+    private String password;
 
     private String role = "student";
     private String email;
