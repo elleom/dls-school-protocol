@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/api")
@@ -36,7 +37,6 @@ public class StudentController {
     public String getCourses(HttpServletRequest request, Model model) { //add model to load repos
         //tryout OK
         Student student = getLoggedStudent(request);
-
         Iterable<Subject> subjects = subjectRepository.findAllByStudent(student.getId()); //todo change interface to student
 
         model.addAttribute("student", student);
@@ -48,7 +48,15 @@ public class StudentController {
     public String getDashboard(Model model, HttpServletRequest request) { //add model to load repos
 
         Student student = getLoggedStudent(request);  //todo change to getUser and set accordingly
+
+        Iterable<Subject> subjects = subjectRepository.findAllByStudent(student.getId());
+        Iterable<Lesson> lessons = lessonRepository.findAll();
+
         model.addAttribute("student", student);
+        model.addAttribute("lessons", lessons);
+        model.addAttribute("subjects", subjects);
+
+
         return "dashboard";
     }
 
@@ -56,8 +64,8 @@ public class StudentController {
     public String getSubjectDetails(@Param("subjectId") Long subjectId, @Param("studentId") Long studentId, Model model) throws ParseException {
 
         Student student = studentRepository.findById(studentId).get();
-        Subject subject = subjectRepository.findById(studentId).get();
-        Iterable<Lesson> lessons = lessonRepository.getAllbySubject(subjectId);
+        Subject subject = subjectRepository.findById(subjectId).get();
+        Iterable<Lesson> lessons = lessonRepository.getAllBySubject(subjectId);
 
         //todo set condition for lessons < 0
 

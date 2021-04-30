@@ -18,4 +18,6 @@ public interface SubjectRepository extends CrudRepository<Subject, Long> {
             "where sht.student_id = :id", nativeQuery = true)
     Iterable<Subject> findAllByStudent(@Param("id")Long student_id);
 
+
+
 }

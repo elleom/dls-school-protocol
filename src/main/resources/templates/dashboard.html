@@ -18,7 +18,8 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link" th:href="@{/index}">Home</a>
-            <a class="nav-item nav-link active" th:href="@{/api/dashboard}">Dashboard<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link active" th:href="@{/api/dashboard}">Dashboard<span
+                    class="sr-only">(current)</span></a>
 
             <a sec:authorize="hasAuthority('TEACHER')"
                th:href="@{/api/teacher/courses}"><h1>Courses</h1></a>
@@ -34,17 +35,33 @@
 </nav>
 
 
-<div>
-    <h3>Profile</h3>
-    <a href="/teachers/dashboard"><h1>SUBJECT</h1></a>
-
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>name</th>
-            <th>email</th>
-        </tr>
-    </table>
+<div class="container-fluid" style="margin-top: 25px">
+    <div class="d-flex flex-row">
+        <div class="card" style="width: 25rem; height: 25rem">
+            <img alt="Card image cap" class="card-img-top" th:src="'https://via.placeholder.com/350x150'">
+            <div class="card-body">
+                <h5 class="card-title">Profile</h5>
+                <p class="card-text" th:text="${'Name: ' + student.fullName}">Username</p>
+                <p class="card-text" th:text="${'Email: ' + student.email}">Username</p>
+                <p class="card-text" th:text="${'Password: ******************'}">Username</p>
+                <p class="card-text"><small class="text-muted" th:text="${student.role}">Last updated 3 mins ago</small>
+                </p>
+            </div>
+        </div>
+        <div class="card-deck" style="margin-left: 25px">
+            <div th:each="subject : ${subjects}">
+                <div class="card" style="width: 25rem; height: 50rem">
+                    <div class="card-body">
+                        <h5 class="card-title">Course</h5>
+                        <p class="card-text" th:text="${subject.name}">Subject name</p>
+                        <p class="card-text" th:text="${'Total lessons (Incorrect, change): ' + subject.lessons.size()}">Total lessons</p>
+                        <p class="card-text" th:text="${'Students in class :' + subject.students.size()}">Username</p>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

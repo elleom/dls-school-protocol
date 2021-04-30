@@ -33,7 +33,7 @@
 <div class="mx-auto" sec:authorize="hasAuthority('STUDENT')">
     <h3 class="text-center" style="margin-top: 25px">Courses you take</h3>
     <div class="row mx-auto container" style="margin-top: 25px">
-        <div class="mx-auto" th:each="sub : ${subjects}">
+        <div class="card-deck" th:each="sub : ${subjects}">
             <div class="col-sm-6">
                 <div class="card bg-light" style="width: 18rem;">
                     <div class="card-body">
@@ -44,16 +44,11 @@
                             card's content.</p>
                         <a th:href="@{../subject/details(studentId=${student.id},subjectId=${sub.id})}"
                            th:text="${sub.name}"></a>
-                        <a class="card-link" href="#">Another link</a>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-
 </div>
-
-
 </body>
 </html>
