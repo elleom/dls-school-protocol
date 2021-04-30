@@ -19,13 +19,13 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link active" th:href="@{/index}">Home<span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" th:href="@{api/teacher/dashboard}">Dashboard</a>
+            <a class="nav-item nav-link" th:href="@{/api/teacher/dashboard}">Dashboard</a>
 
             <a sec:authorize="hasAuthority('TEACHER')"
-               th:href="@{api/teacher/dashboard(id=${user.id})}"><h1>SUBJECT</h1></a>
+               th:href="@{/api/teacher/dashboard(id=${user.id})}"><h1>SUBJECT</h1></a>
 
             <a class="nav-item nav-link" sec:authorize="hasAuthority('STUDENT')"
-               th:href="@{api/student/courses}">Courses</a>
+               th:href="@{/api/student/courses}">Courses</a>
             <a class="nav-item nav-link" href="#">Stats</a>
         </div>
     </div>
@@ -34,8 +34,8 @@
     </div>
 </nav>
 
-<div>
-    <h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+<div class="container">
+    <h3 class="h3 text-center" th:inline="text">Welcome <small class="text-mute">[[${#httpServletRequest.remoteUser}]]</small>!</h3>
     <!--
     <h1>Your IP Address: <span th:text="${clientIp}"></span></h1>
     <h1>Your MAC Address: <span th:text="${clientMAC}"></span></h1> -->
@@ -49,8 +49,8 @@
 
 </div>
 
-<div sec:authorize="hasAuthority('STUDENT')">
-    <a th:href="@{api/student/courses}"><h1>SUBJECT</h1></a>
+<div class="container center" style="margin-top: 25px" sec:authorize="hasAuthority('STUDENT')">
+    <p class="font-weight-light"></p>
 </div>
 
 </body>

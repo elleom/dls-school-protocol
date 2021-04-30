@@ -14,13 +14,13 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link" th:href="@{/index}">Home</a>
-            <a class="nav-item nav-link active" href="#">Dashboard<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" th:href="@{/api/student/dashboard}" href="#">Dashboard</a> <!-- todo change dual dahsboard -->
 
             <a sec:authorize="hasAuthority('TEACHER')"
-               th:href="@{/api/teacher/dashboard(id=${student.id})}"><h1>SUBJECT</h1></a> <!--todo make single dashboard -->
+               th:href="@{/api/teacher/dashboard(id=${student.id})}"><h1>SUBJECT</h1></a> <!--todo make dual dashboard -->
 
-            <a class="nav-item nav-link" sec:authorize="hasAuthority('STUDENT')"
-               th:href="@{/api/student/courses}">Courses</a> <!--todo change mapping for dashboard so doesnt repeat -->
+            <a class="nav-item nav-link active" sec:authorize="hasAuthority('STUDENT')"
+               th:href="@{/api/student/courses}">Courses<span class="sr-only">(current)</span></a> <!--todo change mapping for dashboard so doesnt repeat -->
             <a class="nav-item nav-link" href="#">Stats</a>
         </div>
 
@@ -30,10 +30,10 @@
     </div>
 </nav>
 
-<div sec:authorize="hasAuthority('STUDENT')">
-    <h3 class="text-center">Courses you take</h3>
-    <div class="row">
-        <div th:each="sub : ${subjects}">
+<div class="mx-auto" sec:authorize="hasAuthority('STUDENT')">
+    <h3 class="text-center" style="margin-top: 25px">Courses you take</h3>
+    <div class="row mx-auto container" style="margin-top: 25px">
+        <div class="mx-auto" th:each="sub : ${subjects}">
             <div class="col-sm-6">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">

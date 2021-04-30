@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/api")
@@ -42,7 +41,7 @@ public class StudentController {
 
         model.addAttribute("student", student);
         model.addAttribute("subjects", subjects);
-        return "student_dashboard";
+        return "userCourses";
     }
 
     @GetMapping({"/student/showAll", "/student/showAll.html"})
@@ -89,7 +88,7 @@ public class StudentController {
         model.addAttribute("lessons", lessons);
         model.addAttribute("subject", subject);
         model.addAttribute("attendances", attendances);
-        return "student_subject";
+        return "userSubjectLessonList";
 
     }
 
