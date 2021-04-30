@@ -18,15 +18,19 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">Dashboard<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link active" th:href="@{/index}">Home<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" th:href="@{api/teacher/dashboard}">Dashboard</a>
 
             <a sec:authorize="hasAuthority('TEACHER')"
                th:href="@{api/teacher/dashboard(id=${user.id})}"><h1>SUBJECT</h1></a>
 
             <a class="nav-item nav-link" sec:authorize="hasAuthority('STUDENT')"
-               th:href="@{api/student/dashboard(studentId=${user.id})}">Courses</a>
+               th:href="@{api/student/courses}">Courses</a>
             <a class="nav-item nav-link" href="#">Stats</a>
         </div>
+    </div>
+    <div>
+        <a class="nav-link btn navbar-btn btn-danger navbar-right" role="button" href="#">Logout</a>
     </div>
 </nav>
 

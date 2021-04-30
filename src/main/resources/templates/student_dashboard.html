@@ -13,13 +13,14 @@
     <a class="navbar-brand" href="#">School Protocol</a>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
+            <a class="nav-item nav-link" th:href="@{/index}">Home</a>
             <a class="nav-item nav-link active" href="#">Dashboard<span class="sr-only">(current)</span></a>
 
             <a sec:authorize="hasAuthority('TEACHER')"
-               th:href="@{api/teacher/dashboard(id=${student.id})}"><h1>SUBJECT</h1></a>
+               th:href="@{/api/teacher/dashboard(id=${student.id})}"><h1>SUBJECT</h1></a> <!--todo make single dashboard -->
 
             <a class="nav-item nav-link" sec:authorize="hasAuthority('STUDENT')"
-               th:href="@{api/student/dashboard}">Courses</a> <!--todo change mapping for dashboard so doesnt repeat -->
+               th:href="@{/api/student/courses}">Courses</a> <!--todo change mapping for dashboard so doesnt repeat -->
             <a class="nav-item nav-link" href="#">Stats</a>
         </div>
 
