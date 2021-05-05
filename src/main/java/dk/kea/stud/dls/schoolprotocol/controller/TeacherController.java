@@ -9,6 +9,7 @@ import dk.kea.stud.dls.schoolprotocol.repository.SubjectRepository;
 import dk.kea.stud.dls.schoolprotocol.repository.TeacherRepository;
 import dk.kea.stud.dls.schoolprotocol.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,6 +57,7 @@ public class TeacherController {
     }
     @PostMapping("/teacher/subjectDetails")
     public String addNewLesson (@ModelAttribute("addNewLessons") Lesson lesson){
+        @Query(value = "select * from lesson where subject_id = :id", nativeQuery = true);
         return "subjectDetails";
    }
 }
