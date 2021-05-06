@@ -19,7 +19,8 @@
     </tr>
     <tr th:each="lesson : ${lesson}">
       <td><a th:text="${lesson.id}">data.ID</a></td>
-      <td th:text="${lesson.code}"> DATA</td>
+      <td th:text="${lesson.date}"> DATA</td>
+      <td th:text="${lesson.code}"> code</td>
     </tr>
   </table>
   <form method="POST" modelAttribute="addNewLessons">

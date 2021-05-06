@@ -9,13 +9,15 @@ import dk.kea.stud.dls.schoolprotocol.repository.SubjectRepository;
 import dk.kea.stud.dls.schoolprotocol.repository.TeacherRepository;
 import dk.kea.stud.dls.schoolprotocol.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/api")
@@ -55,9 +57,23 @@ public class TeacherController {
         model.addAttribute("user", teacher);
         return "subjectDetails";
     }
+
     @PostMapping("/teacher/subjectDetails")
-    public String addNewLesson (@ModelAttribute("addNewLessons") Lesson lesson){
-        @Query(value = "select * from lesson where subject_id = :id", nativeQuery = true);
+    public String registerNewLesson (@Param("subjectId") Long subjectId){
+//        LessonRepository.addNewLesson(lesson);
+        //recover subject
+        Subject subject = subjectRepository.findById(1L).get();
+        Lesson lessons = new Lesson();
+        lessons.setSubject(subject);
+        Timestamp timeCreated = new Timestamp(32132132132L);
+        lessons.setDate(timeCreated);
+
+        //try
+         //if OK
+        lessonRepository.save(lessons);
+            //return OK template
+        //catch
+            //return Error template
         return "subjectDetails";
    }
 }
