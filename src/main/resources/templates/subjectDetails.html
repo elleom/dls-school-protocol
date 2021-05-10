@@ -23,7 +23,8 @@
       <td th:text="${lesson.code}"> code</td>
     </tr>
   </table>
-  <form method="POST" modelAttribute="addNewLessons">
+  <form method="POST" th:action="@{/api/teacher/subjectDetails}"> <!-- th:actions loads full path -->
+    <input th:type="hidden" value="1" th:name="subjectId">
     <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
   </form>
 </div>

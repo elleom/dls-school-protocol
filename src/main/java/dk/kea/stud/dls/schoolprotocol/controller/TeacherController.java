@@ -62,8 +62,9 @@ public class TeacherController {
     public String registerNewLesson (@Param("subjectId") Long subjectId){
 //        LessonRepository.addNewLesson(lesson);
         //recover subject
-        Subject subject = subjectRepository.findById(1L).get();
+        Subject subject = subjectRepository.findById(subjectId).get();
         Lesson lessons = new Lesson();
+        lessons.setCode("TRY7");
         lessons.setSubject(subject);
         Timestamp timeCreated = new Timestamp(32132132132L);
         lessons.setDate(timeCreated);
@@ -74,6 +75,6 @@ public class TeacherController {
             //return OK template
         //catch
             //return Error template
-        return "subjectDetails";
+        return "codeGenerationSuccess";
    }
 }
