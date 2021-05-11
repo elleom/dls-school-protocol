@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/api")
@@ -51,7 +50,7 @@ public class StudentController {
 
         Iterable<Subject> subjects = subjectRepository.findAllByStudent(student.getId());
         Long totalLessonsCount = lessonRepository.count();
-        Long totalLessonsAttended = lessonRepository.getLessonsCountByStudentAttendance(student.getId());
+        Long totalLessonsAttended = lessonRepository.getTotalAttendanceCount(student.getId());
 
         model.addAttribute("student", student);
         model.addAttribute("lessonsCount", totalLessonsCount);
