@@ -50,10 +50,12 @@ public class StudentController {
         Student student = getLoggedStudent(request);  //todo change to getUser and set accordingly
 
         Iterable<Subject> subjects = subjectRepository.findAllByStudent(student.getId());
-        Iterable<Lesson> lessons = lessonRepository.findAll();
+        Long totalLessonsCount = lessonRepository.count();
+        Long totalLessonsAttended = lessonRepository.getLessonsCountByStudentAttendance(student.getId());
 
         model.addAttribute("student", student);
-        model.addAttribute("lessons", lessons);
+        model.addAttribute("lessonsCount", totalLessonsCount);
+        model.addAttribute("attendanceCount",totalLessonsAttended);
         model.addAttribute("subjects", subjects);
 
 

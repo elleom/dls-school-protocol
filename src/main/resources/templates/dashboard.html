@@ -54,7 +54,8 @@
                     <div class="card-body">
                         <h5 class="card-title">Course</h5>
                         <p class="card-text" th:text="${subject.name}">Subject name</p>
-                        <p class="card-text" th:text="${'Total lessons (Incorrect, change): ' + subject.lessons.size()}">Total lessons</p>
+                        <p class="card-text" th:text="${'Total lessons : ' + lessonsCount}">Total lessons</p>
+                        <p class="card-text" th:text="${'Lessons attended : ' + attendanceCount}">Total lessons</p>
                         <p class="card-text" th:text="${'Students in class :' + subject.students.size()}">Username</p>
                         </p>
                     </div>
