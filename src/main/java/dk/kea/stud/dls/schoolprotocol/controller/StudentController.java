@@ -91,12 +91,19 @@ public class StudentController {
         attendances.forEach(x ->
                 System.out.println(x.getLesson().getId().toString()));
 
+        Long attendancesPerStudentToSubject = lessonRepository.getAttendanceCountBySubject(studentId, subjectId);
+        Long lessonsSubject = lessonRepository.getTotalLessonsBySubject(subjectId);
+
         model.addAttribute("lessonId", lastLessonId);
         model.addAttribute("checkIn", checkIn);
         model.addAttribute("student", student);
         model.addAttribute("lessons", lessons);
         model.addAttribute("subject", subject);
         model.addAttribute("attendances", attendances);
+        model.addAttribute("attendeesSubject", attendancesPerStudentToSubject);
+        model.addAttribute("lessonsSubject", lessonsSubject);
+        model.addAttribute("missedLessons",  lessonsSubject - attendancesPerStudentToSubject);
+
         return "userSubjectLessonList";
 
     }
