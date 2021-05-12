@@ -77,7 +77,7 @@
                    th:text="${'Total lessons attended :' + attendeesSubject}"></p>
                 <p id="missed-lessons" class="card-text" th:text="${'Lessons Absent :' + missedLessons}"></p>
             </div>
-            <div class="container" th:if="${checkIn}">
+            <div id="check-in-controller" class="container" th:if="${checkIn}">
                 <div class="container card" style="width: 20rem;">
                     <h6 class="card-title">Lesson Check-In Available</h6>
                     <form class="form-inline" method="post" th:action="@{/api/student/lessons}">
@@ -138,6 +138,13 @@
         document.getElementById('myCanvas'),
         config
     );
+
+    let allTr = document.getElementsByTagName("tr");
+    let lastTr = allTr.item(allTr.length-1);
+
+    if (lastTr.childElementCount >= 4) {
+        document.getElementById('check-in-controller').hidden = true;
+    }
 
 </script>
 
