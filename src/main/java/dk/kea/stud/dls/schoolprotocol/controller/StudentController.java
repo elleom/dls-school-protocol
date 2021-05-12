@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
 @RequestMapping("/api")
@@ -51,7 +51,7 @@ public class StudentController {
 
         Iterable<Subject> subjects = subjectRepository.findAllByStudent(student.getId());
         Long totalLessonsCount = lessonRepository.count();
-        Long totalLessonsAttended = lessonRepository.getLessonsCountByStudentAttendance(student.getId());
+        Long totalLessonsAttended = lessonRepository.getTotalAttendanceCount(student.getId());
 
         model.addAttribute("student", student);
         model.addAttribute("lessonsCount", totalLessonsCount);
@@ -69,7 +69,15 @@ public class StudentController {
         Subject subject = subjectRepository.findById(subjectId).get();
         Iterable<Lesson> lessons = lessonRepository.getAllBySubject(subjectId);
 
-        //todo set condition for lessons < 0
+        AtomicInteger count = new AtomicInteger();
+        lessons.forEach(lesson -> {
+            count.getAndIncrement();
+        });
+        boolean containsData = count.intValue() > 0;
+
+        if (!containsData) {
+            return "no_data_found";
+        }
 
         Long lastLessonId = lessonRepository.getLastLessonFromSubject(subjectId);
         Lesson lastLesson = lessonRepository.findById(lastLessonId).get();
@@ -92,12 +100,19 @@ public class StudentController {
         attendances.forEach(x ->
                 System.out.println(x.getLesson().getId().toString()));
 
+        Long attendancesPerStudentToSubject = lessonRepository.getAttendanceCountBySubject(studentId, subjectId);
+        Long lessonsSubject = lessonRepository.getTotalLessonsBySubject(subjectId);
+
         model.addAttribute("lessonId", lastLessonId);
         model.addAttribute("checkIn", checkIn);
         model.addAttribute("student", student);
         model.addAttribute("lessons", lessons);
         model.addAttribute("subject", subject);
         model.addAttribute("attendances", attendances);
+        model.addAttribute("attendeesSubject", attendancesPerStudentToSubject);
+        model.addAttribute("lessonsSubject", lessonsSubject);
+        model.addAttribute("missedLessons",  lessonsSubject - attendancesPerStudentToSubject);
+
         return "userSubjectLessonList";
 
     }
