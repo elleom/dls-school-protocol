@@ -73,7 +73,7 @@ public class StudentController {
         lessons.forEach(lesson -> {
             count.getAndIncrement();
         });
-        boolean containsData = (count.intValue() > 0) ? true : false;
+        boolean containsData = count.intValue() > 0;
 
         if (!containsData) {
             return "no_data_found";
