@@ -20,8 +20,9 @@
         <div class="navbar-nav">
             <a class="nav-item nav-link" th:href="@{/index}">Home</a>
             <a class="nav-item nav-link " th:href="@{/api/dashboard}">Dashboard</a>
-            <a class="nav-item nav-link active" th:href="@{/api/student/courses}">Courses<span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="#">Attendance</a>
+            <a class="nav-item nav-link active" th:href="@{/api/student/courses}">Courses<span
+                    class="sr-only">(current)</span></a>
+
         </div>
     </div>
     <div>
@@ -56,7 +57,7 @@
                     <td>
                         <a class="date" th:text="${lesson.date}">LESSON-DATE.ID</a>
                     </td>
-                    <div th:each="attendance :${attendances}" >
+                    <div th:each="attendance :${attendances}">
                         <td th:if="${lesson.id} == ${attendance.lesson.id}">
                             <img th:src="@{/img/checkIn.png}" width="30px" height="30px"/>
                         </td>
