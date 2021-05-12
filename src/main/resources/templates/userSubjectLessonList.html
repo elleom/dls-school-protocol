@@ -73,21 +73,21 @@
         <div class="d-flex flex-row">
             <div>
                 <p id="total-lessons" class="card-text" th:text="${'Total lessons:' + lessonsSubject}"></p>
-                <p id="attended-lessons" class="card-text" th:text="${'Total lessons attended :' + attendeesSubject}"></p>
+                <p id="attended-lessons" class="card-text"
+                   th:text="${'Total lessons attended :' + attendeesSubject}"></p>
                 <p id="missed-lessons" class="card-text" th:text="${'Lessons Absent :' + missedLessons}"></p>
             </div>
-            <div th:if="${checkIn}">
-                <div class="container card" style="width: 18rem;">
+            <div class="container" th:if="${checkIn}">
+                <div class="container card" style="width: 20rem;">
                     <h6 class="card-title">Lesson Check-In Available</h6>
-                    <form method="post" th:action="@{/api/student/lessons}">
-                        <div input-group>
-                            <input class="form-control" th:min="10" th:name="lesson_code" th:type="text" placeholder="Enter Code">
-                            <input class="btn btn-warning form-control" th:name="submit-btn" th:type="submit" type="submit"/>
+                    <form class="form-inline" method="post" th:action="@{/api/student/lessons}">
+                        <div>
+                            <input class="form-control" th:min="10" th:name="lesson_code" th:type="text"
+                                   placeholder="Enter Code">
+                            <input class="btn btn-warning mb-2" th:name="submit-btn" th:type="submit" type="submit"/>
                         </div>
-
                         <input th:name="lesson_id" th:type="hidden" th:value="${lessonId}" type="hidden"/>
                         <input th:name="student_id" th:type="hidden" th:value="${student.id}" type="hidden"/>
-
                     </form>
 
                 </div>
@@ -101,8 +101,6 @@
 
     </div>
 </div>
-
-
 
 
 </body>
