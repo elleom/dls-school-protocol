@@ -52,12 +52,34 @@ public class TeacherController {
         //tryout OK
         Iterable<Lesson> lesson = lessonRepository.getAllbySubject(id);
         model.addAttribute("lesson", lesson);
+
+        Iterable<Lesson> lessonDesc = lessonRepository.findAllByDesc(id);
+        model.addAttribute("lessonDesc", lessonDesc);
+
         Iterable<Subject> subjects = subjectRepository.findAllByTeacher(id);
         model.addAttribute("subjects", subjects);
+
         String userName = request.getRemoteUser();
         Teacher teacher = teacherRepository.findByUserName(userName);
         model.addAttribute("user", teacher);
+
         return "subjectDetails";
+    }
+
+    @RequestMapping({"/teacher/teacher_all_Lessons", "/teacher/teacher_all_Lessons.html"})
+    public String getAllLessons(@Param("id") Long id, HttpServletRequest request, Model model){ //add model to load repos
+        //tryout OK
+        Iterable<Lesson> lesson = lessonRepository.getAllbySubject(id);
+        model.addAttribute("lesson", lesson);
+
+        Iterable<Subject> subject = subjectRepository.findAllByTeacher(id);
+        model.addAttribute("subject", subject);
+
+        String userName = request.getRemoteUser();
+        Teacher teacher = teacherRepository.findByUserName(userName);
+        model.addAttribute("user", teacher);
+
+        return "teacher_all_Lessons";
     }
 
     @PostMapping("/teacher/subjectDetails")
@@ -80,8 +102,11 @@ public class TeacherController {
 
         Iterable<Subject> subjects = subjectRepository.findAllByTeacher(id);
         model.addAttribute("subjects", subjects);
-        Subject subject = subjectRepository.findById(subjectId).get();
 
+        Iterable<Lesson> lesson = lessonRepository.getAllbySubject(id);
+        model.addAttribute("lesson", lesson);
+
+        Subject subject = subjectRepository.findById(subjectId).get();
         Lesson lessons = new Lesson();
         lessons.setCode(saltStr);
         lessons.setSubject(subject);
@@ -101,4 +126,6 @@ public class TeacherController {
             //return Error template
         return "codeGenerationSuccess";
    }
+
+
 }
