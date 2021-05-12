@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
 @RequestMapping("/api")
@@ -68,7 +69,15 @@ public class StudentController {
         Subject subject = subjectRepository.findById(subjectId).get();
         Iterable<Lesson> lessons = lessonRepository.getAllBySubject(subjectId);
 
-        //todo set condition for lessons < 0
+        AtomicInteger count = new AtomicInteger();
+        lessons.forEach(lesson -> {
+            count.getAndIncrement();
+        });
+        boolean containsData = (count.intValue() > 0) ? true : false;
+
+        if (!containsData) {
+            return "no_data_found";
+        }
 
         Long lastLessonId = lessonRepository.getLastLessonFromSubject(subjectId);
         Lesson lastLesson = lessonRepository.findById(lastLessonId).get();
