@@ -70,25 +70,39 @@
 
     </div>
     <div style="width: 50%; margin-left: 20px">
-        <p id="total-lessons" class="card-text" th:text="${'Total lessons:' + lessonsSubject}"></p>
-        <p id="attended-lessons" class="card-text" th:text="${'Total lessons attended :' + attendeesSubject}"></p>
-        <p id="missed-lessons" class="card-text" th:text="${'Lessons Absent :' + missedLessons}"></p>
+        <div class="d-flex flex-row">
+            <div>
+                <p id="total-lessons" class="card-text" th:text="${'Total lessons:' + lessonsSubject}"></p>
+                <p id="attended-lessons" class="card-text" th:text="${'Total lessons attended :' + attendeesSubject}"></p>
+                <p id="missed-lessons" class="card-text" th:text="${'Lessons Absent :' + missedLessons}"></p>
+            </div>
+            <div th:if="${checkIn}">
+                <div class="container card" style="width: 18rem;">
+                    <h6 class="card-title">Lesson Check-In Available</h6>
+                    <form method="post" th:action="@{/api/student/lessons}">
+                        <div input-group>
+                            <input class="form-control" th:min="10" th:name="lesson_code" th:type="text" placeholder="Enter Code">
+                            <input class="btn btn-warning form-control" th:name="submit-btn" th:type="submit" type="submit"/>
+                        </div>
+
+                        <input th:name="lesson_id" th:type="hidden" th:value="${lessonId}" type="hidden"/>
+                        <input th:name="student_id" th:type="hidden" th:value="${student.id}" type="hidden"/>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+
         <div class="container" style="width: 70%; height: 70%">
-            <canvas id="myCanvas" style="border:1px solid #656464;"></canvas>
+            <canvas id="myCanvas"></canvas>
         </div>
 
     </div>
 </div>
 
-<div th:if="${checkIn}"> <!-- TODO put this on top! -->
-    <form method="post" th:action="@{/api/student/lessons}">
-        <input th:min="10" th:name="lesson_code" th:type="text">
-        <input th:name="lesson_id" th:type="hidden" th:value="${lessonId}" type="hidden"/>
-        <input th:name="student_id" th:type="hidden" th:value="${student.id}" type="hidden"/>
-        <input th:name="submit-btn" th:type="submit" type="submit">Enter Code</input>
-    </form>
 
-</div>
 
 
 </body>
