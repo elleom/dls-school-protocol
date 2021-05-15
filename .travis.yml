@@ -26,6 +26,6 @@ deploy:
   provider: script
     script:
       # push to dockerhub
-      docker push unqpdes/todo-list-front;
+      docker push dlskeasp/school-protocol;
     branch: dev-student
 
