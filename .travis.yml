@@ -27,5 +27,5 @@ deploy:
     script:
       # push to dockerhub
       docker push unqpdes/todo-list-front;
-    all branches: true
+    branches: dev-student
 
