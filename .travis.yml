@@ -24,10 +24,9 @@ deploy:
   # app: school-protocol
   # on:
     # all_branches: true
-
   provider: script
-    script:
+  script:
       # push to dockerhub
-      docker push dlskeasp/school-protocol;
-    branch: dev-student
+    docker push dlskeasp/school-protocol;
+  branch: dev-student
 
