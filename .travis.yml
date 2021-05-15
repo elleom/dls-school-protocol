@@ -9,5 +9,5 @@ deploy:
   api_key: $HEROKU_API_KEY
   app: school-protocol
   on:
-    branch:
-      - dev-student
+    all_branches: true
+
