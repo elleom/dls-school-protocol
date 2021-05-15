@@ -28,5 +28,6 @@ deploy:
   script:
       # push to dockerhub
     docker push dlskeasp/school-protocol;
-  branch: dev-student
+  on:
+    all_branches: true
 
