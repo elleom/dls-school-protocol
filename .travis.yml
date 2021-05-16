@@ -23,7 +23,7 @@ install:
 script:
   # build docker images
   - docker build -t dlskeasp/school-protocol .
-  - - docker tag dlskeasp/school-protocol registry.heroku.com/$HEROKU_APP_NAME/web
+  - docker tag dlskeasp/school-protocol registry.heroku.com/$HEROKU_APP_NAME/web
 
 deploy:
   # provider: heroku
