@@ -1,12 +1,7 @@
 package dk.kea.stud.dls.schoolprotocol.controller;
 
-import dk.kea.stud.dls.schoolprotocol.model.Lesson;
-import dk.kea.stud.dls.schoolprotocol.model.Subject;
-import dk.kea.stud.dls.schoolprotocol.model.Teacher;
-import dk.kea.stud.dls.schoolprotocol.repository.LessonRepository;
-import dk.kea.stud.dls.schoolprotocol.repository.StudentRepository;
-import dk.kea.stud.dls.schoolprotocol.repository.SubjectRepository;
-import dk.kea.stud.dls.schoolprotocol.repository.TeacherRepository;
+import dk.kea.stud.dls.schoolprotocol.model.*;
+import dk.kea.stud.dls.schoolprotocol.repository.*;
 import dk.kea.stud.dls.schoolprotocol.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -15,9 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Optional;
 import java.util.Random;
-
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Controller
@@ -34,6 +33,8 @@ public class TeacherController {
     LessonRepository lessonRepository;
     @Autowired
     StudentRepository studentRepository;
+    @Autowired
+    AttendanceRepository attendanceRepository;
 
 
     @RequestMapping({"/teacher/dashboard", "/teacher/dashboard.html"})
@@ -44,13 +45,15 @@ public class TeacherController {
         model.addAttribute("user", teacher);
         Iterable<Subject> subjects = subjectRepository.findAllByTeacher(id);
         model.addAttribute("subjects", subjects);
+        Iterable<Subject> student = subjectRepository.findAllByStudent(id);
+        model.addAttribute("student", student);
         return "teacher_dashboard";
     }
 
     @RequestMapping({"/teacher/subjectDetails", "/teacher/subjectDetails.html"})
     public String getsubjectDetails(@Param("id") Long id, HttpServletRequest request, Model model){ //add model to load repos
         //tryout OK
-        Iterable<Lesson> lesson = lessonRepository.getAllbySubject(id);
+        Iterable<Lesson> lesson = lessonRepository.getAllBySubject(id);
         model.addAttribute("lesson", lesson);
 
         Iterable<Lesson> lessonDesc = lessonRepository.findAllByDesc(id);
@@ -69,7 +72,7 @@ public class TeacherController {
     @RequestMapping({"/teacher/teacher_all_Lessons", "/teacher/teacher_all_Lessons.html"})
     public String getAllLessons(@Param("id") Long id, HttpServletRequest request, Model model){ //add model to load repos
         //tryout OK
-        Iterable<Lesson> lesson = lessonRepository.getAllbySubject(id);
+        Iterable<Lesson> lesson = lessonRepository.getAllBySubject(id);
         model.addAttribute("lesson", lesson);
 
         Iterable<Subject> subject = subjectRepository.findAllByTeacher(id);
@@ -84,48 +87,66 @@ public class TeacherController {
 
     @PostMapping("/teacher/subjectDetails")
     public String registerNewLesson (@Param("subjectId") Long subjectId,@Param("id") Long id, HttpServletRequest request, Model model){
+        try {
+            //Class code generation
+            String lessonCode = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
+            StringBuilder salt = new StringBuilder();
+            Random random = new Random();
+            while (salt.length() < 6) { // length of the random string.
+                int index = (int) (random.nextFloat() * lessonCode.length());
+                salt.append(lessonCode.charAt(index));
+            }
+            //factoring to string
+            String saltStr = salt.toString();
 
-        //Class code generation
-        String lessonCode = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
-        StringBuilder salt = new StringBuilder();
-        Random random = new Random();
-        while (salt.length() < 6) { // length of the random string.
-            int index = (int) (random.nextFloat() * lessonCode.length());
-            salt.append(lessonCode.charAt(index));
+            String userName = request.getRemoteUser();
+            Teacher teacher = teacherRepository.findByUserName(userName);
+            model.addAttribute("user", teacher);
+
+            Iterable<Subject> subjects = subjectRepository.findAllByTeacher(id);
+            model.addAttribute("subjects", subjects);
+
+            Iterable<Lesson> lesson = lessonRepository.getAllBySubject(id);
+            model.addAttribute("lesson", lesson);
+
+            Subject subject = subjectRepository.findById(subjectId).get();
+            Lesson lessons = new Lesson();
+            lessons.setCode(saltStr);
+            lessons.setSubject(subject);
+
+            LocalDateTime now = LocalDateTime.now();
+            Timestamp timeCreated = Timestamp.valueOf(now);
+
+            lessons.setDate(timeCreated);
+            lessonRepository.save(lessons);
+            return "codeGenerationSuccess";
         }
-        //factoring to string
-        String saltStr = salt.toString();
-
+        catch(Exception e){
+            return "cudeGenerationFail";
+        }
+   }
+    @RequestMapping({"/teacher/students_list", "/teacher/students_list.html"})
+    public String getStudentList(@Param("id") Long id, HttpServletRequest request, Model model){
         String userName = request.getRemoteUser();
         Teacher teacher = teacherRepository.findByUserName(userName);
         model.addAttribute("user", teacher);
-
+        Iterable<Student> students = studentRepository.findStudentBySubjectsId(id);
+        model.addAttribute("students", students);
+        return "students_list";
+    }
+    @RequestMapping({"/teacher/students_info", "/teacher/students_info.html"})
+    public String getStudentsDetail(@Param("id") Long id, HttpServletRequest request, Model model){
+        String userName = request.getRemoteUser();
+        Teacher teacher = teacherRepository.findByUserName(userName);
+        model.addAttribute("user", teacher);
+        Iterable<Student> students = studentRepository.findStudentBySubjectsId(id);
+        model.addAttribute("students", students);
         Iterable<Subject> subjects = subjectRepository.findAllByTeacher(id);
         model.addAttribute("subjects", subjects);
 
-        Iterable<Lesson> lesson = lessonRepository.getAllbySubject(id);
-        model.addAttribute("lesson", lesson);
 
-        Subject subject = subjectRepository.findById(subjectId).get();
-        Lesson lessons = new Lesson();
-        lessons.setCode(saltStr);
-        lessons.setSubject(subject);
-
-        LocalDateTime now = LocalDateTime.now();
-        Timestamp timeCreated = Timestamp.valueOf(now);
-
-        lessons.setDate(timeCreated);
-        lessonRepository.save(lessons);
-//        if (lessonRepository.count() > oldCountOfClasses){
-//            return "codeGenerationSuccess";
-//        }
-//        else {
-//            return "teacher_dashboard";
-//        }    //return OK template
-        //catch
-            //return Error template
-        return "codeGenerationSuccess";
-   }
+        return "students_info";
+    }
 
 
 }

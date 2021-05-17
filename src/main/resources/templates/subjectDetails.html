@@ -67,7 +67,7 @@
 </center>
   <center>
   <form method="POST" th:action="@{/api/teacher/subjectDetails}" > <!-- th:actions loads full path -->
-    <input th:type="hidden" value="1" th:name="subjectId">
+    <input th:name="subjectId" th:type="hidden" th:value="1">
     <button class="btn btn-lg btn-primary btn-block" type="submit" style="width: auto;height: auto">Submit</button>
   </form>
   </center>

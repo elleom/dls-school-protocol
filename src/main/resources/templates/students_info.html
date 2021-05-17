@@ -50,22 +50,7 @@
 <div class="container" style="margin-top: 25px">
 </div>
 
-<div sec:authorize="hasAuthority('TEACHER')">
 
-  <center>
-    <table>
-      <tr>
-        <th>name</th>
-        <th>email</th>
-      </tr>
-      <tr th:each="student : ${students}">
-        <td th:text="${student.fullName}">name</td>
-        <td><a  th:href="@{./students_info(studentId=${student.id})}" th:text="${student.email}"> </a></td>
-      </tr>
-
-  </table>
-</center>
-</div>
 
 
 </body>

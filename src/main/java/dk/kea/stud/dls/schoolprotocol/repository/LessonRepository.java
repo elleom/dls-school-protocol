@@ -16,9 +16,18 @@ public interface LessonRepository extends CrudRepository<Lesson, Long> {
         System.out.println(lesson);
     }
 
-    @Query(value = "select * from lesson where subject_id = :id", nativeQuery = true)
-    Iterable<Lesson> getAllbySubject(@Param("id")Long subject_id);
+    @Query(value = "select * from lesson where subject_id = :subjectId", nativeQuery = true)
+    Iterable<Lesson> getAllBySubject(@Param("subjectId")Long subject_id);
 
-    @Query(value = "select * from lesson ORDER BY id DESC LIMIT 5", nativeQuery = true)
+    @Query(value = "select * from lesson WHERE subject_id = :id ORDER BY id DESC LIMIT 5", nativeQuery = true)
     Iterable<Lesson> findAllByDesc(@Param("id")Long lesson_id);
+
+    @Query(value = "select max(id) from lesson where subject_id = :subjectId", nativeQuery = true)
+    Long getLastLessonFromSubject(@Param("subjectId") Long subject_id);
+
+    @Query(value = "select count(a.id) from lesson join attendance a on lesson.id = a.lesson_id where a.student_id = :id and lesson.subject_id = :subjectId", nativeQuery = true)
+    Long getAttendanceCountBySubject(@Param("id") Long student_id, @Param("subjectId") Long subject_id);
+
+    @Query(value = "select count(id) from lesson where lesson.subject_Id = :subjectId", nativeQuery = true)
+    Long getTotalLessonsBySubject(@Param("subjectId") Long subjectId);
 }

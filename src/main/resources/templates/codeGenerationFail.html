@@ -6,21 +6,7 @@
   <title>School Protocol</title>
   <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
-  <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 75%;
-    }
 
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
-
-
-  </style>
 </head>
 <body>
 
@@ -49,23 +35,10 @@
 
 <div class="container" style="margin-top: 25px">
 </div>
-
 <div sec:authorize="hasAuthority('TEACHER')">
-
-  <center>
-    <table>
-      <tr>
-        <th>name</th>
-        <th>email</th>
-      </tr>
-      <tr th:each="student : ${students}">
-        <td th:text="${student.fullName}">name</td>
-        <td><a  th:href="@{./students_info(studentId=${student.id})}" th:text="${student.email}"> </a></td>
-      </tr>
-
-  </table>
-</center>
+  <center> <h3>Code creation has failed!</h3></center>
 </div>
+
 
 
 </body>

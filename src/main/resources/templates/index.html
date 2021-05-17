@@ -22,11 +22,10 @@
             <a sec:authorize="hasAuthority('TEACHER')" class="nav-item nav-link" th:href="@{/api/teacher/dashboard(id=${user.id})}">Dashboard</a>
             <a class="nav-item nav-link" sec:authorize="hasAuthority('STUDENT')"
                th:href="@{/api/student/courses}">Courses</a>
-            <a class="nav-item nav-link" href="#">Stats</a>
         </div>
     </div>
     <div>
-        <a class="nav-link btn navbar-btn btn-danger navbar-right" role="button" th:href="@{/logout}">Logout</a>
+
     </div>
 </nav>
 
