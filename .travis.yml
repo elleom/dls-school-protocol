@@ -19,7 +19,7 @@ install:
 script:
   # build docker images
   - docker build -t dlskeasp/school-protocol .
-  - docker tag dlskeasp/school-protocol
+  - docker tag dlskeasp/school-protocol dlskeasp/school-protocol
 
 deploy:
   # provider: heroku
