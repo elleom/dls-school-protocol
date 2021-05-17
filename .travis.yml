@@ -7,16 +7,23 @@ services:
   - docker
 
 before_install:
+  - # install heroku CLI
+    - wget -qO- https://toolbelt.heroku.com/install.sh | sh
+
   # login to docker registries
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+  - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
 
 install:
   - mvn -N io.takari:maven:wrapper
   - ./mvnw install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+  - mvn install
 
 script:
   # build docker images
   - docker build -t dlskeasp/school-protocol .
+  - docker tag dlskeasp/school-protocol registry.heroku.com/$HEROKU_APP_NAME/web
 
 deploy:
   # provider: heroku
@@ -27,7 +34,9 @@ deploy:
   provider: script
   script:
       # push to dockerhub
-    docker push dlskeasp/school-protocol;
+    docker push dlskeasp/$HEROKU_APP_NAME;
+    docker push registry.heroku.com/$HEROKU_APP_NAME/web;
+    heroku container:release web --app $HEROKU_APP_NAME
   on:
     all_branches: true
 
