@@ -10,15 +10,16 @@ spec:
   template:
     metadata:
       labels:
-        app: schhol-protocol
-      spec:
-        containers:
-          - name: school-protocol-app
-            image: dlskeasp/school-protocol
-            imagePullPolicy: Always
-            ports:
-              - containerPort: 8080
-            readinessProbe:
+        app: school-protocol
+    spec:
+      containers:
+        - name: school-protocol-app
+          image: dlskeasp/school-protocol
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
               path: /actuator/health
               port: 8080
             initialDelaySeconds: 5
@@ -26,7 +27,8 @@ spec:
             httpGet:
               path: /actuator/health
               port: 8080
-        restartPolicy: Always
+            initialDelaySeconds: 5
+      restartPolicy: Always
 ---
 kind: Service
 apiVersion: v1
