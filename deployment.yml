@@ -1,0 +1,35 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: school-protocol
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: school-protocol
+  template:
+    metadata:
+      labels:
+        app: school-protocol
+    spec:
+      containers:
+        - name: school-protocol-app
+          image: dlskeasp/school-protocol
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: school-protocol
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      nodePort: 31000
+  selector:
+    app: school-protocol
