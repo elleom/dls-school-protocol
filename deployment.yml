@@ -33,3 +33,4 @@ spec:
       nodePort: 31000
   selector:
     app: school-protocol
+
