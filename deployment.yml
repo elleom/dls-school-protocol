@@ -25,7 +25,7 @@ apiVersion: v1
 metadata:
   name: school-protocol
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - port: 8080
       targetPort: 8080
@@ -33,3 +33,4 @@ spec:
       nodePort: 31000
   selector:
     app: school-protocol
+
