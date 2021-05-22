@@ -33,4 +33,7 @@ spec:
       nodePort: 31000
   selector:
     app: school-protocol
+web:
+  env_file:
+    web-variables.env
 
