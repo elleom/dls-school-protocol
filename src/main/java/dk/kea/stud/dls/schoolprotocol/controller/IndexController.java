@@ -37,7 +37,6 @@ public class IndexController {
         //String clientMAC = requestService.getClientMac(clientIp);
         //model.addAttribute("clientIp", clientIp);
         //model.addAttribute("clientMAC", clientMAC);
-        //push request
 
         /*
         checks if logged in user is stud or teach
