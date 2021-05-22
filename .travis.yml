@@ -32,5 +32,5 @@ deploy:
       # push to dockerhub
     docker push dlskeasp/$HEROKU_APP_NAME;
   on:
-    branch: main
+    all_branches: main
 
