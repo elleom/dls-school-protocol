@@ -18,7 +18,7 @@ install:
 
 script:
   # build docker images
-  - docker build -t dlskeasp/school-protocol .
+  - docker build -e DATABASE_URL=$DATABASE_URL -e DATABASE_USER=$DATABASE_USER -e MYSQL_PASSWORD=$MYSQL_PASSWORD -t dlskeasp/school-protocol .
   - docker tag dlskeasp/school-protocol dlskeasp/school-protocol
 
 deploy:
