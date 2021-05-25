@@ -14,6 +14,6 @@ public interface StudentRepository extends CrudRepository<Student, Long> {
     @Query(value = "select * from student where student_id = :id", nativeQuery = true)
     Iterable<Student> getAllbyId(@Param("id")Long student_id);
 
-    @Query(value = "select fullName,email,id, student.role from student join student_has_subject shs on student.id = shs.student_id where subject_id = :id", nativeQuery = true)
+    @Query(value = "select * from student join student_has_subject shs on student.id = shs.student_id where subject_id = :id", nativeQuery = true)
     Iterable<Student> findStudentBySubjectsId(@Param("id")Long id);
 }

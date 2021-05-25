@@ -14,4 +14,5 @@ public interface AttendanceRepository extends CrudRepository<Attendance, Long> {
     @Query(value = "select attendance.* from attendance join lesson l on l.id = attendance.lesson_id where student_id = :id", nativeQuery = true)
     ArrayList<Attendance> findAllByStudent(@Param("id")Long student_id);
 
+
 }

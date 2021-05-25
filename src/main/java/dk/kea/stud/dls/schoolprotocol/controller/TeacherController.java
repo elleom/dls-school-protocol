@@ -26,16 +26,15 @@ public class TeacherController {
     @Autowired
     RequestService requestService;
     @Autowired
-    SubjectRepository subjectRepository;
-    @Autowired
     TeacherRepository teacherRepository;
     @Autowired
-    LessonRepository lessonRepository;
+    SubjectRepository subjectRepository;
     @Autowired
     StudentRepository studentRepository;
     @Autowired
+    LessonRepository lessonRepository;
+    @Autowired
     AttendanceRepository attendanceRepository;
-
 
     @RequestMapping({"/teacher/dashboard", "/teacher/dashboard.html"})
     public String getDashBoard(@Param("id") Long id, HttpServletRequest request, Model model){ //add model to load repos
@@ -126,7 +125,7 @@ public class TeacherController {
         }
    }
     @RequestMapping({"/teacher/students_list", "/teacher/students_list.html"})
-    public String getStudentList(@Param("id") Long id, HttpServletRequest request, Model model){
+    public String getStudentList(@Param("id") Long id, HttpServletRequest request, Model model) {
         String userName = request.getRemoteUser();
         Teacher teacher = teacherRepository.findByUserName(userName);
         model.addAttribute("user", teacher);
@@ -135,15 +134,14 @@ public class TeacherController {
         return "students_list";
     }
     @RequestMapping({"/teacher/students_info", "/teacher/students_info.html"})
-    public String getStudentsDetail(@Param("id") Long id, HttpServletRequest request, Model model){
+    public String getStudentsDetail(@Param("id") Long id, HttpServletRequest request, Model model) {
         String userName = request.getRemoteUser();
         Teacher teacher = teacherRepository.findByUserName(userName);
         model.addAttribute("user", teacher);
-        Iterable<Student> students = studentRepository.findStudentBySubjectsId(id);
-        model.addAttribute("students", students);
-        Iterable<Subject> subjects = subjectRepository.findAllByTeacher(id);
-        model.addAttribute("subjects", subjects);
-
+        Student student = (Student) studentRepository.getAllbyId(id);
+        model.addAttribute("student", student);
+        ArrayList<Attendance> attendances = attendanceRepository.findAllByStudent(id);
+        model.addAttribute("attendances", attendances);
 
         return "students_info";
     }
