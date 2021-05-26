@@ -53,27 +53,18 @@
 
 <div sec:authorize="hasAuthority('TEACHER')">
   <center>
-    <h3>Last 5 generated codes</h3>
     <table>
       <tr>
         <th>Date</th>
         <th>Code</th>
       </tr>
-      <tr th:each="lessonDesc : ${lessonDesc}">
-        <td th:text="${lessonDesc.date}"> Date</td>
-        <td th:text="${lessonDesc.code}"> code</td>
+      <tr th:each="lesson : ${lesson}">
+        <td th:text="${lesson.date}"> DATA</td>
+        <td th:text="${lesson.code}"> code</td>
       </tr>
     </table>
   </center>
-  <center>
-    <form method="POST" th:action="@{/api/teacher/subjectDetails}" > <!-- th:actions loads full path -->
-      <input th:name="subjectId" th:type="hidden" th:value="1">
-      <button class="btn btn-lg btn-primary btn-block" type="submit" style="width: auto;height: auto">Submit</button>
-    </form>
-  </center>
-  <tr th:each="subject : ${subjects}">
-    <td><a th:href="@{./teacher_all_Lessons(id=${subject.id})}" th:text="${subject.name}"></a></td>
-  </tr>
+
 </div>
 
 </body>

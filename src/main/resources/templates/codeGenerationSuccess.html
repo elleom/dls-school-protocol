@@ -6,21 +6,6 @@
   <title>School Protocol</title>
   <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
-  <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 75%;
-    }
-
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
-
-
-  </style>
 </head>
 <body>
 
@@ -49,32 +34,11 @@
 
 <div class="container" style="margin-top: 25px">
 </div>
-
-
 <div sec:authorize="hasAuthority('TEACHER')">
-  <center>
-    <h3>Last 5 generated codes</h3>
-    <table>
-      <tr>
-        <th>Date</th>
-        <th>Code</th>
-      </tr>
-      <tr th:each="lessonDesc : ${lessonDesc}">
-        <td th:text="${lessonDesc.date}"> Date</td>
-        <td th:text="${lessonDesc.code}"> code</td>
-      </tr>
-    </table>
-  </center>
-  <center>
-    <form method="POST" th:action="@{/api/teacher/subjectDetails}" > <!-- th:actions loads full path -->
-      <input th:name="subjectId" th:type="hidden" th:value="1">
-      <button class="btn btn-lg btn-primary btn-block" type="submit" style="width: auto;height: auto">Submit</button>
-    </form>
-  </center>
-  <tr th:each="subject : ${subjects}">
-    <td><a th:href="@{./teacher_all_Lessons(id=${subject.id})}" th:text="${subject.name}"></a></td>
-  </tr>
+  <center> <h3>Code has been successfully created!</h3></center>
 </div>
+
+
 
 </body>
 </html>

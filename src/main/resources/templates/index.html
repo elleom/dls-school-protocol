@@ -34,7 +34,8 @@
 </nav>
 
 <div class="container" style="margin-top: 25px">
-    <h3 class="h3 text-center" th:inline="text">Welcome <small class="text-mute">[[${#httpServletRequest.remoteUser}]]</small>!</h3>
+    <h3 class="h3 text-center" th:inline="text">Welcome <small
+            class="text-mute">[[${#httpServletRequest.remoteUser}]]</small>!</h3>
     <!--
     <h1>Your IP Address: <span th:text="${clientIp}"></span></h1>
     <h1>Your MAC Address: <span th:text="${clientMAC}"></span></h1> -->
@@ -42,22 +43,23 @@
 
 <!-- ONLY visible for STUDENT / TEACHERS depending on their role -->
 <div sec:authorize="hasAuthority('TEACHER')">
-    <p class="font-weight-light"><b>Instructions to check in:</b> Under <em>Courses</em> select the class where you would like
-        to generate a new code. Once a new code is has been generated for a course 1.30Hs should pass before trying to generate a second one <br>
+    <p class="font-weight-light"><b>Instructions to check in:</b> Under <em>Courses</em> select the class where you
+        would like
+        to generate a new code. Once a new code is has been generated for a course 1.30Hs should pass before trying to
+        generate a second one <br>
         <b>Pre-conditions:</b> <em>None</em></p>
 </div>
 
 <div class="container center" style="margin-top: 25px" sec:authorize="hasAuthority('STUDENT')">
-    <p class="font-weight-light"><b>Instructions to check in:</b> Under <em>Courses</em> select the class where you would like
-    to claim attendance. When a new class code has been push an input field will be visible so you can enter the code that the teacher <br>
-    has provided. <br>
-    <b>Pre-conditions:</b> Even the site is publicly available for you to check your stats from wherever you 're logging in you would only be <br>
-    able check-in fi you are connected to the school's private network.</p>
+    <p class="font-weight-light"><b>Instructions to check in:</b> Under <em>Courses</em> select the class where you
+        would like
+        to claim attendance. When a new class code has been push an input field will be visible so you can enter the
+        code that the teacher <br>
+        has provided. <br>
+        <b>Pre-conditions:</b> Even the site is publicly available for you to check your stats from wherever you 're
+        logging in you would only be <br>
+        able check-in fi you are connected to the school's private network.</p>
 </div>
-
-</body>
-</html>
-
 
 </body>
 </html>

@@ -81,7 +81,7 @@ public class TeacherController {
         Teacher teacher = teacherRepository.findByUserName(userName);
         model.addAttribute("user", teacher);
 
-        return "teacher_all_Lessons";
+        return "teacher_all_lessons";
     }
 
     @PostMapping("/teacher/subjectDetails")
@@ -121,7 +121,7 @@ public class TeacherController {
             return "codeGenerationSuccess";
         }
         catch(Exception e){
-            return "cudeGenerationFail";
+            return "codeGenerationFail";
         }
     }
     @RequestMapping({"/teacher/students_list", "/teacher/students_list.html"})
