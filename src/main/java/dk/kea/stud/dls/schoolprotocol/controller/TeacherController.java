@@ -65,6 +65,9 @@ public class TeacherController {
         Teacher teacher = teacherRepository.findByUserName(userName);
         model.addAttribute("user", teacher);
 
+        Subject subject = subjectRepository.findById(id).get();
+        model.addAttribute("subject", subject);
+
         return "subjectDetails";
     }
 
