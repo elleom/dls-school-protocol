@@ -7,14 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 @Controller
@@ -119,7 +121,7 @@ public class TeacherController {
             return "codeGenerationSuccess";
         }
         catch(Exception e){
-            return "codeGenerationFail";
+            return "cudeGenerationFail";
         }
     }
     @RequestMapping({"/teacher/students_list", "/teacher/students_list.html"})
