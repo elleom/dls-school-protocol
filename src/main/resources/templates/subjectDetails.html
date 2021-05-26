@@ -34,10 +34,10 @@
   <div sec:authorize="hasAuthority('TEACHER')" class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <a class="nav-item nav-link active" th:href="@{/index}">Home<span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" th:href="@{/api/teacher/dashboard(id=${user.id})}">Dashboard</a>
+      <a class="nav-item nav-link" sec:authorize="hasAuthority('STUDENT')" th:href="@{/api/dashboard}">Dashboard</a>
 
-      <!--      <a sec:authorize="hasAuthority('TEACHER')" class="nav-item nav-link"-->
-      <!--         th:href="@{/api/teacher/dashboard(id=${user.id})}">Subject</a>-->
+      <a sec:authorize="hasAuthority('TEACHER')" class="nav-item nav-link"
+         th:href="@{/api/teacher/dashboard(id=${user.id})}">Dashboard</a>
 
 
     </div>

@@ -60,7 +60,7 @@
       </tr>
       <tr th:each="student : ${students}">
         <td th:text="${student.fullName}">name</td>
-        <td><a  th:href="@{./students_info(studentId=${student.id})}" th:text="${student.email}"> </a></td>
+        <td><a  th:href="@{/api/subject/details(studentId=${student.id},subjectId=${subject.id})}" th:text="${student.email}"> </a></td>
       </tr>
 
     </table>

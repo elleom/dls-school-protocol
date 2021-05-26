@@ -37,15 +37,13 @@ public class TeacherController {
     AttendanceRepository attendanceRepository;
 
     @RequestMapping({"/teacher/dashboard", "/teacher/dashboard.html"})
-    public String getDashBoard(@Param("id") Long id, HttpServletRequest request, Model model){ //add model to load repos
+    public String getDashBoard(HttpServletRequest request, Model model){ //add model to load repos
         //tryout OK
         String userName = request.getRemoteUser();
         Teacher teacher = teacherRepository.findByUserName(userName);
         model.addAttribute("user", teacher);
-        Iterable<Subject> subjects = subjectRepository.findAllByTeacher(id);
+        Iterable<Subject> subjects = subjectRepository.findAllByTeacher(teacher.getId());
         model.addAttribute("subjects", subjects);
-        Iterable<Subject> student = subjectRepository.findAllByStudent(id);
-        model.addAttribute("student", student);
         return "teacher_dashboard";
     }
 
@@ -134,6 +132,8 @@ public class TeacherController {
         model.addAttribute("user", teacher);
         Iterable<Student> students = studentRepository.findStudentBySubjectsId(id);
         model.addAttribute("students", students);
+        Subject subject = subjectRepository.findById(id).get();
+        model.addAttribute("subject", subject);
         return "students_list";
     }
     @RequestMapping({"/teacher/students_info", "/teacher/students_info.html"})
@@ -147,6 +147,12 @@ public class TeacherController {
         model.addAttribute("attendances", attendances);
 
         return "students_info";
+    }
+
+    public Teacher getLoggedUser(HttpServletRequest request) {
+        String user = request.getRemoteUser();
+        Teacher teacher = teacherRepository.findByUserName(request.getRemoteUser());
+        return teacher;
     }
 
 

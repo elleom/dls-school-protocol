@@ -19,7 +19,10 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
             <a class="nav-item nav-link" th:href="@{/index}">Home</a>
-            <a class="nav-item nav-link " th:href="@{/api/dashboard}">Dashboard</a>
+            <a class="nav-item nav-link" sec:authorize="hasAuthority('STUDENT')" th:href="@{/api/dashboard}">Dashboard</a>
+
+            <a sec:authorize="hasAuthority('TEACHER')" class="nav-item nav-link"
+               th:href="@{/api/teacher/dashboard}">Dashboard</a>
             <a class="nav-item nav-link active" th:href="@{/api/student/courses}">Courses<span
                     class="sr-only">(current)</span></a>
 

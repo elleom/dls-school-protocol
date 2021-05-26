@@ -2,32 +2,40 @@
 <html lang="en" xmlns:h6th="http://www.w3.org/1999/html"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">School Protocol</a>
-  <button aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"
-          class="navbar-toggler"
-          data-target="#navbarNavAltMarkup" data-toggle="collapse" type="button">
+    <a class="navbar-brand" href="#">School Protocol</a>
+    <button aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-target="#navbarNavAltMarkup" data-toggle="collapse" type="button">
 
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link" th:href="@{/index}">Home</a>
-      <a class="nav-item nav-link " th:href="@{/api/dashboard}">Dashboard</a>
-      <a class="nav-item nav-link active" th:href="@{/api/student/courses}">Courses<span
-              class="sr-only">(current)</span></a>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" th:href="@{/index}">Home</a>
+            <a class="nav-item nav-link " th:href="@{/api/dashboard}">Dashboard</a>
+            <a class="nav-item nav-link active" th:href="@{/api/student/courses}">Courses<span
+                    class="sr-only">(current)</span></a>
 
+        </div>
     </div>
-  </div>
-  <div>
-    <a class="nav-link btn navbar-btn btn-danger navbar-right" role="button" th:href="@{/logout}">Logout</a>
-  </div>
+    <div>
+        <a class="nav-link btn navbar-btn btn-danger navbar-right" role="button" th:href="@{/logout}">Logout</a>
+    </div>
 </nav>
-<div class="container">
-  <h1>NO DATA</h1>
-</div>
+<center>
+    <div class="container">
+        <h6>No lessons have yet been created for this class</h6>
+    </div>
+
+    <div class="container">
+        <img th:src="@{/img/noDataFound.png}" height="300" width="300"></img>
+    </div>
+</center>
+</body>
+</html>
