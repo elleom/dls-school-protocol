@@ -53,6 +53,7 @@
 
 <div sec:authorize="hasAuthority('TEACHER')">
   <center>
+    <h3 class="text-center" style="margin-top: 25px" th:text="${subject.name}">Subject Name</h3>
     <h3>Last 5 generated codes</h3>
     <table>
       <tr>
@@ -66,7 +67,7 @@
     </table>
   </center>
   <center>
-    <form method="POST" th:action="@{/api/teacher/subjectDetails}" > <!-- th:actions loads full path -->
+    <form method="POST" th:action="@{/api/teacher/subjectDetails}" style="margin-top: 25px"> <!-- th:actions loads full path -->
       <input th:name="subjectId" th:type="hidden" th:value="${subject.id}">
       <button class="btn btn-lg btn-primary btn-block" type="submit" style="width: auto;height: auto">Submit</button>
     </form>
