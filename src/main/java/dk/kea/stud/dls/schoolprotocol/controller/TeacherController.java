@@ -10,13 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Optional;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 @Controller
@@ -52,6 +49,12 @@ public class TeacherController {
         //tryout OK
         Iterable<Lesson> lesson = lessonRepository.getAllBySubject(id);
         model.addAttribute("lesson", lesson);
+
+        AtomicReference<Integer> lessonCount = new AtomicReference<>(0);
+        lesson.forEach(item -> {
+            lessonCount.getAndSet(lessonCount.get() + 1);
+        });
+        model.addAttribute("lessonsCount", lessonCount);
 
         Iterable<Lesson> lessonDesc = lessonRepository.findAllByDesc(id);
         model.addAttribute("lessonDesc", lessonDesc);

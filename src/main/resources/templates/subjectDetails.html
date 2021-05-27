@@ -21,6 +21,7 @@
 
 
   </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
@@ -77,5 +78,56 @@
   </tr>
 </div>
 
+<div class="container" style="width: 70%; height: 70%">
+  <canvas id="myCanvas"></canvas>
+</div>
+
+
 </body>
+
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+
+  let lessonsCount = /*[[${lessonCount}]]*/ 'default';
+  let attended = /*[[${attendeesSubject}]]*/ 'default';
+  let allLessons = /*[[${lessonsSubject}]]*/ 'default';
+
+
+  const data = {
+    labels: [
+      'Attended',
+      'Missed',
+    ],
+    datasets: [{
+      label: 'My First Dataset',
+      data: [attended, lessonsCount],
+      backgroundColor: [
+        'rgb(54, 162, 235)',
+        'rgb(255, 205, 86)'
+      ],
+      hoverOffset: 4
+    }]
+  };
+
+  const config = {
+    type: 'pie',
+    data,
+    options: {}
+  };
+
+  let myChart = new Chart(
+          document.getElementById('myCanvas'),
+          config
+  );
+
+  let allTr = document.getElementsByTagName("tr");
+  let lastTr = allTr.item(allTr.length-1);
+
+  if (lastTr.childElementCount >= 4) {
+    document.getElementById('check-in-controller').hidden = true;
+  }
+
+</script>
+
 </html>
