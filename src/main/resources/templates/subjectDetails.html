@@ -89,19 +89,19 @@
 <script th:inline="javascript">
   /*<![CDATA[*/
 
-  let lessonsCount = /*[[${lessonCount}]]*/ 'default';
-  let attended = /*[[${attendeesSubject}]]*/ 'default';
-  let allLessons = /*[[${lessonsSubject}]]*/ 'default';
+  let lessonsCount = /*[[${lessonsCount}]]*/ 'default';
+  let attended = /*[[${attended}]]*/ 'default';
+  // let allLessons = /*[[${lessonsSubject}]]*/ 'default';
 
 
   const data = {
     labels: [
-      'Attended',
-      'Missed',
+      'Attended Lesson',
+      'Lessons with no participants',
     ],
     datasets: [{
       label: 'My First Dataset',
-      data: [attended, lessonsCount],
+      data: [attended, lessonsCount - attended],
       backgroundColor: [
         'rgb(54, 162, 235)',
         'rgb(255, 205, 86)'
@@ -120,13 +120,6 @@
           document.getElementById('myCanvas'),
           config
   );
-
-  let allTr = document.getElementsByTagName("tr");
-  let lastTr = allTr.item(allTr.length-1);
-
-  if (lastTr.childElementCount >= 4) {
-    document.getElementById('check-in-controller').hidden = true;
-  }
 
 </script>
 
