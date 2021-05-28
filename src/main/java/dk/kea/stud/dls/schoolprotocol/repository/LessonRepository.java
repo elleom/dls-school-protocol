@@ -40,4 +40,7 @@ public interface LessonRepository extends CrudRepository<Lesson, Long> {
 
     @Query(value = "select count(id) from lesson where lesson.subject_Id = :subjectId", nativeQuery = true)
     Long getTotalLessonsBySubject(@Param("subjectId") Long subjectId);
+
+    @Query (value = "select count(distinct a.student_id) from lesson join attendance a on lesson.id = a.lesson_id where lesson.subject_id = 1", nativeQuery = true)
+    Long getCountDiffStudentAttended(@Param("subjectId") Long subjectId);
 }

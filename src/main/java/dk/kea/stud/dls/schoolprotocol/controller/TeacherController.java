@@ -59,6 +59,9 @@ public class TeacherController {
         long totalLessonsAttendance = lessonRepository.getAllLessonsAttendedCountBySubject(id);
         model.addAttribute("attended", totalLessonsAttendance);
 
+        long differentStudentAttended = lessonRepository.getCountDiffStudentAttended(id);
+        model.addAttribute("studentsCountAttended", differentStudentAttended);
+
         Iterable<Lesson> lessonDesc = lessonRepository.findAllByDesc(id);
         model.addAttribute("lessonDesc", lessonDesc);
 
