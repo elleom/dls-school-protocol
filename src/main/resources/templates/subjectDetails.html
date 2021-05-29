@@ -76,14 +76,12 @@
             </button>
         </form>
     </center>
-    <tr th:each="subject : ${subjects}">
-        <td><a th:href="@{./teacher_all_Lessons(id=${subject.id})}" th:text="${subject.name}"></a></td>
-    </tr>
+    <a style="float: right; margin-right: 15px" class="btn btn-warning" th:href="@{./teacher_all_Lessons(id=${subject.id})}" th:text="${'Show All'}"></a>
 </div>
 
 <div class="container-fluid" style="display: flex ;flex-direction: row; width: 100%; justify-content: space-between">
-    <div class="container">
-        <canvas id="myCanvasPie" width="300" height="300"></canvas>
+    <div class="container" style="width: 40%">
+        <canvas id="myCanvasPie" width="150" height="150"></canvas>
     </div>
 
     <div class="container">
@@ -119,20 +117,20 @@
     const dataBar = {
         labels: ['Total Lessons', 'Students Attended', 'Unattended Lessons'],
         datasets: [{
-                label: 'Dataset',
-                data: [lessonsCount, attended, studentsCountAttended],
-                borderColor: [
-                    'rgb(222,4,69)',
-                    'rgb(49,163,99)',
-                    'rgb(63,134,163)',
-                ],
-                backgroundColor: [
-                    'rgba(206,7,65,0.47)',
-                    'rgba(49,163,99,0.41)',
-                    'rgba(63,134,163,0.53)'
-                ],
-                borderWidth: 1
-            }
+            label: 'Courses Data',
+            data: [lessonsCount, attended, studentsCountAttended],
+            backgroundColor: [
+                'rgba(206,7,65,0.47)',
+                'rgba(49,163,99,0.41)',
+                'rgba(63,134,163,0.53)'
+            ],
+            borderColor: [
+                'rgb(222,4,69)',
+                'rgb(49,163,99)',
+                'rgb(63,134,163)',
+            ],
+            borderWidth: 1
+        }
         ]
     }
 
@@ -159,10 +157,41 @@
         configPie
     );
 
-    let myChartBar = new Chart(
-        document.getElementById('myCanvasBar'),
-        configBars
-    );
+    var ctx = document.getElementById('myCanvasBar').getContext('2d');
+    var myChartExample = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Total lessons', 'Total Lessons with attendees', 'Total Attendees', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: 'Lessons Data',
+                data: [lessonsCount, attended, studentsCountAttended, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 
 </script>
 
