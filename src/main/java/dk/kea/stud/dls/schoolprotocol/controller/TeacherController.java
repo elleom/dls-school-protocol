@@ -75,6 +75,8 @@ public class TeacherController {
         Subject subject = subjectRepository.findById(id).get();
         model.addAttribute("subject", subject);
 
+        model.addAttribute("submitAvail", submitAvailable(id));
+
         return "subjectDetails";
     }
 
@@ -90,6 +92,8 @@ public class TeacherController {
         String userName = request.getRemoteUser();
         Teacher teacher = teacherRepository.findByUserName(userName);
         model.addAttribute("user", teacher);
+
+
 
         return "teacher_all_lessons";
     }
@@ -162,6 +166,25 @@ public class TeacherController {
         String user = request.getRemoteUser();
         Teacher teacher = teacherRepository.findByUserName(request.getRemoteUser());
         return teacher;
+    }
+
+    public boolean submitAvailable(Long subjectId) {
+        Long lastLessonId = lessonRepository.getLastLessonFromSubject(subjectId);
+        Lesson lastLesson = lessonRepository.findById(lastLessonId).get();
+
+        Timestamp timeCreated = lastLesson.getDate();
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+
+        long millisecondsTimeCreated = timeCreated.getTime();
+        long millisecondsNow = now.getTime();
+        long diffMilliseconds = millisecondsNow - millisecondsTimeCreated;
+
+        long diffMinutes = diffMilliseconds / (60 * 1000);
+
+        if (diffMinutes <= 90) { // change time if needed
+            return false;
+        }
+        return true;
     }
 
 

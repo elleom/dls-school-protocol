@@ -72,11 +72,16 @@
         <form method="POST" th:action="@{/api/teacher/subjectDetails}" style="margin-top: 25px">
             <!-- th:actions loads full path -->
             <input th:name="subjectId" th:type="hidden" th:value="${subject.id}">
-            <button class="btn btn-lg btn-primary btn-block" type="submit" style="width: auto;height: auto">Submit
-            </button>
+            <div th:if="${!submitAvail}">
+                <button class="btn btn-lg btn-primary btn-block" type="submit" style="width: auto;height: auto" disabled>Submit</button>
+                <p>*Submit will only be available after 90 minutes have past since last code generation</p>
+            </div>
+            <div th:unless="${!submitAvail}">
+                <button class="btn btn-lg btn-primary btn-block" type="submit" style="width: auto;height: auto">Submit</button>
+            </div>
         </form>
     </center>
-    <a style="float: right; margin-right: 15px" class="btn btn-warning" th:href="@{./teacher_all_Lessons(id=${subject.id})}" th:text="${'Show All'}"></a>
+    <a style="float: right; margin-right: 15px" class="btn btn-warning" th:href="@{./teacher_all_Lessons(id=${subject.id})}" th:text="${'Show All'}" ></a>
 </div>
 
 <div class="container-fluid" style="display: flex ;flex-direction: row; width: 100%; justify-content: space-between">
