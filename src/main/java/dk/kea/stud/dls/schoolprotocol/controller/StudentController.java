@@ -92,7 +92,7 @@ public class StudentController {
         long diffMinutes = diffMilliseconds / (60 * 1000);
         boolean checkIn = false;
 
-        if (diffMinutes <= 100) { // todo change time
+        if (diffMinutes <= 15) { // change time if needed
             checkIn = true;
         }
 
