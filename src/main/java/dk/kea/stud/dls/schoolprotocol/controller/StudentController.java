@@ -1,10 +1,7 @@
 package dk.kea.stud.dls.schoolprotocol.controller;
 
 import dk.kea.stud.dls.schoolprotocol.model.*;
-import dk.kea.stud.dls.schoolprotocol.repository.AttendanceRepository;
-import dk.kea.stud.dls.schoolprotocol.repository.LessonRepository;
-import dk.kea.stud.dls.schoolprotocol.repository.StudentRepository;
-import dk.kea.stud.dls.schoolprotocol.repository.SubjectRepository;
+import dk.kea.stud.dls.schoolprotocol.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -32,6 +29,8 @@ public class StudentController {
     LessonRepository lessonRepository;
     @Autowired
     AttendanceRepository attendanceRepository;
+    @Autowired
+    TeacherRepository teacherRepository;
 
     @RequestMapping({"/student/courses", "/student/courses.html"})
     public String getCourses(HttpServletRequest request, Model model) { //add model to load repos
@@ -53,6 +52,7 @@ public class StudentController {
         Long totalLessonsCount = lessonRepository.count();
         Long totalLessonsAttended = lessonRepository.getTotalAttendanceCount(student.getId());
 
+
         model.addAttribute("student", student);
         model.addAttribute("lessonsCount", totalLessonsCount);
         model.addAttribute("attendanceCount",totalLessonsAttended);
@@ -63,9 +63,28 @@ public class StudentController {
     }
 
     @GetMapping({"/subject/details"})
-    public String getSubjectDetails(@Param("subjectId") Long subjectId, @Param("studentId") Long studentId, Model model) throws ParseException {
+    public String getSubjectDetails(@Param("subjectId") Long subjectId, @Param("studentId") Long studentId, Model model, HttpServletRequest request) throws ParseException {
+
+        String loggedUser = request.getRemoteUser();
+        String authType = request.getRemoteAddr();
+
+        BaseEntity user = studentRepository.findByUserName(loggedUser);
+        if (null == user) {
+            user = teacherRepository.findByUserName(loggedUser);
+        }
 
         Student student = studentRepository.findById(studentId).get();
+        Long studIdAlt = studentId;
+        Long userId = user.getId();
+
+        String expectedRole = "TEACHER";
+        String userRole = user.getRole();
+
+        if ( (studIdAlt != userId) | (!expectedRole.equals(userRole))) {
+            return "access_denied";
+        }
+
+
         Subject subject = subjectRepository.findById(subjectId).get();
         Iterable<Lesson> lessons = lessonRepository.getAllBySubject(subjectId);
 
@@ -92,7 +111,7 @@ public class StudentController {
         long diffMinutes = diffMilliseconds / (60 * 1000);
         boolean checkIn = false;
 
-        if (diffMinutes <= 100) { // todo change time
+        if (diffMinutes <= 15) { // change time if needed
             checkIn = true;
         }
 

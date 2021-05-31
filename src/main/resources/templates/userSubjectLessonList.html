@@ -22,8 +22,9 @@
             <a class="nav-item nav-link" sec:authorize="hasAuthority('STUDENT')" th:href="@{/api/dashboard}">Dashboard</a>
 
             <a sec:authorize="hasAuthority('TEACHER')" class="nav-item nav-link"
-               th:href="@{/api/teacher/dashboard}">Dashboard</a>
-            <a class="nav-item nav-link active" th:href="@{/api/student/courses}">Courses<span
+               th:href="@{/api/teacher/dashboard}">Dashboard<span
+                    class="sr-only">(current)</span></a>
+            <a sec:authorize="hasAuthority('STUDENT')" class="nav-item nav-link active" th:href="@{/api/student/courses}" >Courses<span
                     class="sr-only">(current)</span></a>
 
         </div>
@@ -75,6 +76,7 @@
     <div style="width: 50%; margin-left: 20px">
         <div class="d-flex flex-row">
             <div>
+                <h3 th:text="${student.fullName}">STUDENT NAME</h3>
                 <p id="total-lessons" class="card-text" th:text="${'Total lessons: ' + lessonsSubject}"></p>
                 <p id="attended-lessons" class="card-text"
                    th:text="${'Total lessons attended: ' + attendeesSubject}"></p>

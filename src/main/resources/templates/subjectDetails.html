@@ -2,49 +2,51 @@
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>School Protocol</title>
-  <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
-  <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 75%;
-    }
+    <meta charset="UTF-8">
+    <title>School Protocol</title>
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 75%;
+        }
 
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
 
 
-  </style>
+    </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">School Protocol</a>
-  <button aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"
-          class="navbar-toggler"
-          data-target="#navbarNavAltMarkup" data-toggle="collapse" type="button">
+    <a class="navbar-brand" href="#">School Protocol</a>
+    <button aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
+            data-target="#navbarNavAltMarkup" data-toggle="collapse" type="button">
 
-  </button>
-  <div sec:authorize="hasAuthority('TEACHER')" class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="nav-item nav-link active" th:href="@{/index}">Home<span class="sr-only">(current)</span></a>
-      <a class="nav-item nav-link" sec:authorize="hasAuthority('STUDENT')" th:href="@{/api/dashboard}">Dashboard</a>
+    </button>
+    <div sec:authorize="hasAuthority('TEACHER')" class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" th:href="@{/index}">Home<span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" sec:authorize="hasAuthority('STUDENT')"
+               th:href="@{/api/dashboard}">Dashboard</a>
 
-      <a sec:authorize="hasAuthority('TEACHER')" class="nav-item nav-link"
-         th:href="@{/api/teacher/dashboard(id=${user.id})}">Dashboard</a>
+            <a sec:authorize="hasAuthority('TEACHER')" class="nav-item nav-link"
+               th:href="@{/api/teacher/dashboard(id=${user.id})}">Dashboard</a>
 
 
+        </div>
     </div>
-  </div>
-  <div>
-    <a class="nav-link btn navbar-btn btn-danger navbar-right" role="button" th:href="@{/logout}">Logout</a>
-  </div>
+    <div>
+        <a class="nav-link btn navbar-btn btn-danger navbar-right" role="button" th:href="@{/logout}">Logout</a>
+    </div>
 </nav>
 
 <div class="container" style="margin-top: 25px">
@@ -52,29 +54,150 @@
 
 
 <div sec:authorize="hasAuthority('TEACHER')">
-  <center>
-    <h3>Last 5 generated codes</h3>
-    <table>
-      <tr>
-        <th>Date</th>
-        <th>Code</th>
-      </tr>
-      <tr th:each="lessonDesc : ${lessonDesc}">
-        <td th:text="${lessonDesc.date}"> Date</td>
-        <td th:text="${lessonDesc.code}"> code</td>
-      </tr>
-    </table>
-  </center>
-  <center>
-    <form method="POST" th:action="@{/api/teacher/subjectDetails}" > <!-- th:actions loads full path -->
-      <input th:name="subjectId" th:type="hidden" th:value="${subject.id}">
-      <button class="btn btn-lg btn-primary btn-block" type="submit" style="width: auto;height: auto">Submit</button>
-    </form>
-  </center>
-  <tr th:each="subject : ${subjects}">
-    <td><a th:href="@{./teacher_all_Lessons(id=${subject.id})}" th:text="${subject.name}"></a></td>
-  </tr>
+    <center>
+        <h3 class="text-center" style="margin-top: 25px" th:text="${subject.name}">Subject Name</h3>
+        <h3>Last 5 generated codes</h3>
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Code</th>
+            </tr>
+            <tr th:each="lessonDesc : ${lessonDesc}">
+                <td th:text="${lessonDesc.date}"> Date</td>
+                <td th:text="${lessonDesc.code}"> code</td>
+            </tr>
+        </table>
+    </center>
+    <center>
+        <form method="POST" th:action="@{/api/teacher/subjectDetails}" style="margin-top: 25px">
+            <!-- th:actions loads full path -->
+            <input th:name="subjectId" th:type="hidden" th:value="${subject.id}">
+            <div th:if="${!submitAvail}">
+                <button class="btn btn-lg btn-primary btn-block" type="submit" style="width: auto;height: auto" disabled>Submit</button>
+                <p>*Submit will only be available after 90 minutes have past since last code generation</p>
+            </div>
+            <div th:unless="${!submitAvail}">
+                <button class="btn btn-lg btn-primary btn-block" type="submit" style="width: auto;height: auto">Submit</button>
+            </div>
+        </form>
+    </center>
+    <a style="float: right; margin-right: 15px" class="btn btn-warning" th:href="@{./teacher_all_Lessons(id=${subject.id})}" th:text="${'Show All'}" ></a>
 </div>
 
+<div class="container-fluid" style="display: flex ;flex-direction: row; width: 100%; justify-content: space-between">
+    <div class="container" style="width: 40%">
+        <canvas id="myCanvasPie" width="150" height="150"></canvas>
+    </div>
+
+    <div class="container">
+        <canvas id="myCanvasBar"></canvas>
+    </div>
+</div>
 </body>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    let lessonsCount = /*[[${lessonsCount}]]*/ 'default';
+    let attended = /*[[${attended}]]*/ 'default';
+    let studentsCountAttended = /*[[${studentsCountAttended}]]*/ 'default';
+
+
+    const dataPie = {
+        labels: [
+            'Attended Lesson',
+            'Lessons with no participants',
+        ],
+        datasets: [{
+            label: 'My First Dataset',
+            data: [attended, lessonsCount - attended],
+            backgroundColor: [
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+            ],
+            hoverOffset: 4
+        }]
+    };
+
+    const dataBar = {
+        labels: ['Total Lessons', 'Students Attended', 'Unattended Lessons'],
+        datasets: [{
+            label: 'Courses Data',
+            data: [lessonsCount, attended, studentsCountAttended],
+            backgroundColor: [
+                'rgba(206,7,65,0.47)',
+                'rgba(49,163,99,0.41)',
+                'rgba(63,134,163,0.53)'
+            ],
+            borderColor: [
+                'rgb(222,4,69)',
+                'rgb(49,163,99)',
+                'rgb(63,134,163)',
+            ],
+            borderWidth: 1
+        }
+        ]
+    }
+
+    const configPie = {
+        type: 'pie',
+        data: dataPie,
+        options: {}
+    };
+
+    const configBars = {
+        type: 'bar',
+        dataBar,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+
+    let myChart = new Chart(
+        document.getElementById('myCanvasPie'),
+        configPie
+    );
+
+    var ctx = document.getElementById('myCanvasBar').getContext('2d');
+    var myChartExample = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Total lessons', 'Total Lessons with attendees', 'Total Attendees', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: 'Lessons Data',
+                data: [lessonsCount, attended, studentsCountAttended, 5, 2, 3],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+</script>
+
 </html>

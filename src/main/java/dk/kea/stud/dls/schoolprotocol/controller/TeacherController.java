@@ -10,13 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Optional;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 @Controller
@@ -50,8 +47,20 @@ public class TeacherController {
     @RequestMapping({"/teacher/subjectDetails", "/teacher/subjectDetails.html"})
     public String getsubjectDetails(@Param("id") Long id, HttpServletRequest request, Model model){ //add model to load repos
         //tryout OK
-        Iterable<Lesson> lesson = lessonRepository.getAllBySubject(id);
-        model.addAttribute("lesson", lesson);
+        Iterable<Lesson> allLesson = lessonRepository.getAllBySubject(id);
+        model.addAttribute("allLesson", allLesson);
+        int lessonCount = 0;
+        for (Lesson lesson : allLesson) {
+            lessonCount++;
+        }
+
+        model.addAttribute("lessonsCount", lessonCount);
+
+        long totalLessonsAttendance = lessonRepository.getAllLessonsAttendedCountBySubject(id);
+        model.addAttribute("attended", totalLessonsAttendance);
+
+        long differentStudentAttended = lessonRepository.getCountDiffStudentAttended(id);
+        model.addAttribute("studentsCountAttended", differentStudentAttended);
 
         Iterable<Lesson> lessonDesc = lessonRepository.findAllByDesc(id);
         model.addAttribute("lessonDesc", lessonDesc);
@@ -65,6 +74,15 @@ public class TeacherController {
 
         Subject subject = subjectRepository.findById(id).get();
         model.addAttribute("subject", subject);
+
+        if (lessonCount > 0) {
+            model.addAttribute("submitAvail", submitAvailable(id));
+        } else {
+            model.addAttribute("submitAvail", true);
+        }
+
+
+
 
         return "subjectDetails";
     }
@@ -81,6 +99,8 @@ public class TeacherController {
         String userName = request.getRemoteUser();
         Teacher teacher = teacherRepository.findByUserName(userName);
         model.addAttribute("user", teacher);
+
+
 
         return "teacher_all_lessons";
     }
@@ -153,6 +173,25 @@ public class TeacherController {
         String user = request.getRemoteUser();
         Teacher teacher = teacherRepository.findByUserName(request.getRemoteUser());
         return teacher;
+    }
+
+    public boolean submitAvailable(Long subjectId) {
+        Long lastLessonId = lessonRepository.getLastLessonFromSubject(subjectId);
+        Lesson lastLesson = lessonRepository.findById(lastLessonId).get();
+
+        Timestamp timeCreated = lastLesson.getDate();
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+
+        long millisecondsTimeCreated = timeCreated.getTime();
+        long millisecondsNow = now.getTime();
+        long diffMilliseconds = millisecondsNow - millisecondsTimeCreated;
+
+        long diffMinutes = diffMilliseconds / (60 * 1000);
+
+        if (diffMinutes <= 90) { // change time if needed
+            return false;
+        }
+        return true;
     }
 
 
