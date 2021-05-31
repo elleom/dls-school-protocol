@@ -47,13 +47,13 @@ public class TeacherController {
     @RequestMapping({"/teacher/subjectDetails", "/teacher/subjectDetails.html"})
     public String getsubjectDetails(@Param("id") Long id, HttpServletRequest request, Model model){ //add model to load repos
         //tryout OK
-        Iterable<Lesson> lesson = lessonRepository.getAllBySubject(id);
-        model.addAttribute("lesson", lesson);
+        Iterable<Lesson> allLesson = lessonRepository.getAllBySubject(id);
+        model.addAttribute("allLesson", allLesson);
+        int lessonCount = 0;
+        for (Lesson lesson : allLesson) {
+            lessonCount++;
+        }
 
-        AtomicReference<Integer> lessonCount = new AtomicReference<>(0);
-        lesson.forEach(item -> {
-            lessonCount.getAndSet(lessonCount.get() + 1);
-        });
         model.addAttribute("lessonsCount", lessonCount);
 
         long totalLessonsAttendance = lessonRepository.getAllLessonsAttendedCountBySubject(id);
@@ -75,7 +75,14 @@ public class TeacherController {
         Subject subject = subjectRepository.findById(id).get();
         model.addAttribute("subject", subject);
 
-        model.addAttribute("submitAvail", submitAvailable(id));
+        if (lessonCount > 0) {
+            model.addAttribute("submitAvail", submitAvailable(id));
+        } else {
+            model.addAttribute("submitAvail", true);
+        }
+
+
+
 
         return "subjectDetails";
     }
