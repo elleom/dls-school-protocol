@@ -1,0 +1,14 @@
+spring:
+  primary:
+    datasource:
+      password: toor #not shown in production environments
+      username: root
+      driver: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/school_protocol
+  replica:
+    datasource:
+      password: readonlypassword #not shown in production environments
+      username: readonly
+      driver: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3307/school_protocol
+
