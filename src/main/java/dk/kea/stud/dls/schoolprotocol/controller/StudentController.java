@@ -97,8 +97,7 @@ public class StudentController {
         boolean containsData = count.intValue() > 0;
 
         if (!containsData) {
-            return "no_data_found";
-        }
+            return "no_data_found";        }
 
         Long lastLessonId = lessonRepository.getLastLessonFromSubject(subjectId);
         Lesson lastLesson = lessonRepository.findById(lastLessonId).get();
