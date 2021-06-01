@@ -79,11 +79,13 @@ public class StudentController {
 
         String expectedRole = "TEACHER";
         String userRole = user.getRole();
+        boolean IsTeacher =  expectedRole.equals(userRole);
 
-        if ( (studIdAlt != userId) | (!expectedRole.equals(userRole))) {
-            return "access_denied";
+        if (studIdAlt != userId) {
+            if (!IsTeacher) {
+                return "access_denied";
+            }
         }
-
 
         Subject subject = subjectRepository.findById(subjectId).get();
         Iterable<Lesson> lessons = lessonRepository.getAllBySubject(subjectId);
@@ -95,8 +97,7 @@ public class StudentController {
         boolean containsData = count.intValue() > 0;
 
         if (!containsData) {
-            return "no_data_found";
-        }
+            return "no_data_found";        }
 
         Long lastLessonId = lessonRepository.getLastLessonFromSubject(subjectId);
         Lesson lastLesson = lessonRepository.findById(lastLessonId).get();
