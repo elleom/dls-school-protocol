@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Controller
@@ -55,7 +58,7 @@ public class StudentController {
 
         model.addAttribute("student", student);
         model.addAttribute("lessonsCount", totalLessonsCount);
-        model.addAttribute("attendanceCount",totalLessonsAttended);
+        model.addAttribute("attendanceCount", totalLessonsAttended);
         model.addAttribute("subjects", subjects);
 
 
@@ -66,7 +69,6 @@ public class StudentController {
     public String getSubjectDetails(@Param("subjectId") Long subjectId, @Param("studentId") Long studentId, Model model, HttpServletRequest request) throws ParseException {
 
         String loggedUser = request.getRemoteUser();
-        String authType = request.getRemoteAddr();
 
         BaseEntity user = studentRepository.findByUserName(loggedUser);
         if (null == user) {
@@ -79,7 +81,7 @@ public class StudentController {
 
         String expectedRole = "TEACHER";
         String userRole = user.getRole();
-        boolean IsTeacher =  expectedRole.equals(userRole);
+        boolean IsTeacher = expectedRole.equals(userRole);
 
         if (studIdAlt != userId) {
             if (!IsTeacher) {
@@ -97,7 +99,8 @@ public class StudentController {
         boolean containsData = count.intValue() > 0;
 
         if (!containsData) {
-            return "no_data_found";        }
+            return "no_data_found";
+        }
 
         Long lastLessonId = lessonRepository.getLastLessonFromSubject(subjectId);
         Lesson lastLesson = lessonRepository.findById(lastLessonId).get();
@@ -117,9 +120,6 @@ public class StudentController {
         }
 
         ArrayList<Attendance> attendances = attendanceRepository.findAllByStudent(studentId);
-        attendances.forEach(x ->
-                System.out.println(x.getLesson().getId().toString()));
-
         Long attendancesPerStudentToSubject = lessonRepository.getAttendanceCountBySubject(studentId, subjectId);
         Long lessonsSubject = lessonRepository.getTotalLessonsBySubject(subjectId);
 
@@ -131,7 +131,7 @@ public class StudentController {
         model.addAttribute("attendances", attendances);
         model.addAttribute("attendeesSubject", attendancesPerStudentToSubject);
         model.addAttribute("lessonsSubject", lessonsSubject);
-        model.addAttribute("missedLessons",  lessonsSubject - attendancesPerStudentToSubject);
+        model.addAttribute("missedLessons", lessonsSubject - attendancesPerStudentToSubject);
 
         return "userSubjectLessonList";
 
@@ -140,7 +140,14 @@ public class StudentController {
     @PostMapping({"/student/lessons"})
     public String declareAttendance(@RequestParam("lesson_id") Long lessonId,
                                     @RequestParam("student_id") Long studentId,
-                                    @RequestParam("lesson_code") String code) {
+                                    @RequestParam("lesson_code") String code,
+                                    HttpServletRequest request) {
+
+        boolean isSameNetwork = checkNetworkIp(request);
+
+        if (!isSameNetwork) {
+            return "network_alert";
+        }
 
         Student student = studentRepository.findById(studentId).get();
         Lesson lesson = lessonRepository.findById(lessonId).get();
@@ -156,8 +163,51 @@ public class StudentController {
     }
 
     public Student getLoggedStudent(HttpServletRequest request) {
-        String user = request.getRemoteUser();
         Student student = studentRepository.findByUserName(request.getRemoteUser());
         return student;
+    }
+
+    private boolean checkNetworkIp(HttpServletRequest request) {
+
+        final String LOCALHOST_IPV4 = "127.0.0.1";
+        final String LOCALHOST_IPV6 = "0:0:0:0:0:0:0:1";
+        String localIp = "";
+        String subnet = "";
+
+        String requestIp = request.getRemoteAddr();
+        String regexIpV4 = "\\."; //splits the string based on the '.'
+        String regexIpV6 = "\\:";
+        String[] parts = {};
+
+        if (requestIp.equals(LOCALHOST_IPV4) | requestIp.equals(LOCALHOST_IPV6)) {
+            return true;
+        }
+        String ipType;
+        if (requestIp.contains(".")) {
+            ipType = "ipv4";
+        } else {
+            ipType = "ipv6";
+        }
+
+        switch (ipType) {
+            case "ipv4":
+                parts = requestIp.split(regexIpV4);
+                subnet = parts[0] + "." + parts[1] + ".";
+                break;
+            case "ipv6":
+                parts = requestIp.split(regexIpV6);
+                subnet = parts[0] + ":" + parts[1] + ":" + parts[2] + ":" + parts[3];
+        }
+
+        System.out.println(Arrays.toString(parts));
+        try {
+            localIp = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        if (localIp.contains(subnet)) {
+            return true;
+        }
+        return false;
     }
 }
