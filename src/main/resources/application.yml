@@ -1,14 +1,22 @@
 spring:
   primary:
     datasource:
-      password: toor #not shown in production environments
-      username: root
+      password: ${MYSQL_PASSWORD} #not shown in production environments
+      username: ${DATABASE_USER}
       driver: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/school_protocol
+      url: ${DATABASE_URL}
   replica:
     datasource:
-      password: readonlypassword #not shown in production environments
-      username: readonly
+      password: ${MYSQL_PASSWORD} #not shown in production environments
+      username: ${DATABASE_USER}
       driver: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3307/school_protocol
+      url: ${DATABASE_URL}
+
+    #datasource:
+      #password: readonlypassword #not shown in production environments
+      #username: readonly
+      #driver: com.mysql.cj.jdbc.Driver
+      #url: jdbc:mysql://localhost:3307/school_protocol
+
+
 
