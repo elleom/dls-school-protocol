@@ -7,10 +7,10 @@ spring:
       url: ${DATABASE_URL}
   replica:
     datasource:
-      password: ${MYSQL_PASSWORD} #not shown in production environments
-      username: ${DATABASE_USER}
+      password: ${MYSQL_PASSWORD_REPLICA} #not shown in production environments
+      username: ${DATABASE_USER_REPLICA}
       driver: com.mysql.cj.jdbc.Driver
-      url: ${DATABASE_URL}
+      url: ${DATABASE_URL_REPLICA}
 
     #datasource:
       #password: readonlypassword #not shown in production environments
